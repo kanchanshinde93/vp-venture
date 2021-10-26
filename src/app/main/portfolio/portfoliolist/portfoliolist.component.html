@@ -1,0 +1,74 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <app-content-header [contentHeader]="contentHeader"></app-content-header>
+      <div class="row" id="table-striped">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header"><h4 class="card-title">Portfolio List</h4></div>
+              <section id="ngx-datatable-kitchen-sink">
+                  <div class="row">
+                    
+                    <!-- <div class="search">
+                      <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                        <label class="d-flex align-items-center"
+                          >Search<input
+                            type="search"
+                            [(ngModel)]="fullName"
+                            placeholder="Search"
+                            class="form-control ml-25"
+                            (keyup)="filterUpdate($event)"
+                        /></label>
+                      </div>
+                    </div> -->
+                  </div>
+                  <div class="row" id="table-striped">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="table-responsive">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr.No.</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Amount</th>
+                                <th>Locking</th>
+                                <th>Profit</th>
+                                <th>Rate</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <!-- <th>Actions</th> -->
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let portfolio of portfoliosData | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                                <th scope="row">{{i + 1}}</th>
+                                <td>{{portfolio.fullName}}</td>
+                                <td>{{portfolio.email}}</td>
+                                <td>{{portfolio.phone}}</td>
+                                <td>{{portfolio.amount}}</td>
+                                <td>{{portfolio.locking}}</td>
+                                <td>{{portfolio.profit}}</td>
+                                <td>{{portfolio.rate}}</td>
+                                <td>{{portfolio.timestamp.toDate() | date:'dd/mm/yy'}}</td>
+                                <td>{{portfolio.timestamp.toDate() | date:'h:mm:ss'}}</td>
+                                <!-- <td class="overflow-hidden"> -->
+                                  <!-- <button class="btn more-link add-store-btn ml-24px" (click)="viewopen(view, portfolio.uid)"><i class="fi-rr-plus mr-12px lh-0"></i>view</button> -->
+                                 <!-- <a (click)="addBook(investor.uid)"><i data-feather="trash" class="mr-50"></i><span>Delete</span></a> -->
+                                <!-- </td> -->
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <pagination-controls previousLabel="Prev" nextLabel="Next" [responsive]="true" (pageChange)="handlePageChange($event)" class="d-flex justify-content-center pagination-section"></pagination-controls>
+              </section>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  

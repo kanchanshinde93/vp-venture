@@ -1,0 +1,329 @@
+<div class="content-wrapper container-xxl p-0">
+  <div class="content-body">
+    <app-content-header [contentHeader]="contentHeader"></app-content-header>
+    <div class="row" id="table-striped">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header"><h4 class="card-title">Investor List</h4></div>
+            <section id="ngx-datatable-kitchen-sink">
+                <div class="row">
+                  
+                  <!-- <div class="search">
+                    <div class="d-flex align-items-center justify-content-end pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                      <label class="d-flex align-items-center"
+                        >Search<input
+                          type="search"
+                          [(ngModel)]="fullName"
+                          placeholder="Search"
+                          class="form-control ml-25"
+                          (keyup)="filterUpdate($event)"
+                      /></label>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="row" id="table-striped">
+                  <div class="col-12">
+                    <div class="card">
+                      <div class="table-responsive">
+                        <table class="table table-striped">
+                          <thead>
+                            <tr>
+                              <th>Sr.No.</th>
+                              <th>Full Name</th>
+                              <th>Email</th>
+                              <th>Phone</th>
+                              <th>City</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let investor of investors | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <th scope="row">{{i + 1}}</th>
+                              <td>{{investor.fullName}}</td>
+                              <td>{{investor.email}}</td>
+                              <td>{{investor.phone}}</td>
+                              <td>{{investor.city}}</td>
+                              <!-- <td><span class="badge badge-pill badge-light-warning mr-1">Pending</span></td> -->
+                              <td class="overflow-hidden">
+                                <button class="btn btn-relief-info"  (click)="viewopen(view, investor.uid)"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></button>
+
+                               <!-- <a (click)="addBook(investor.uid)"><i data-feather="trash" class="mr-50"></i><span>Delete</span></a> -->
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <pagination-controls previousLabel="Prev" nextLabel="Next" [responsive]="true" (pageChange)="handlePageChange($event)" class="d-flex justify-content-center pagination-section"></pagination-controls>
+            </section>
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+<ng-template #view let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="myModalLabel160">Investor Deatils</h5>
+    <a type="button" (click)="modal.dismiss('Cross click')" (click)="portfolioDetails(doc_uid)"  ngbTooltip="Portfolio" class="btn btn-relief-info portfolio">portfolio Details</a>
+    <a type="button" (click)="modal.dismiss('Cross click')" (click)="transactionDetails(doc_uid)"  ngbTooltip="Portfolio" class="btn btn-relief-info transaction">Transactions Details</a>
+    <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" tabindex="0" ngbAutofocus>
+    <div class="row">
+      <div class="col-lg-3 col-md-6 col-12">
+        <div class="card card-employee-task">
+          <div class="card-header">
+            <h4 class="card-title">Investor Basic Details</h4>
+            <!-- <i data-feather="more-vertical" class="font-medium-3 cursor-pointer"></i> -->
+          </div>
+          <div class="card-body">
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <!-- <div class="avatar mr-75">
+                  <img
+                    src="assets/images/portrait/small/avatar-s-9.jpg"
+                    class="rounded"
+                    width="42"
+                    height="42"
+                    alt="Avatar"
+                  />
+                </div> -->
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Name</h6>
+                  <!-- <small>iOS Developer</small> -->
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{fullName}}</h6>
+                <!-- <small class="text-muted mr-75">{{fullName}}</small> -->
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Email</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{email}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Phone</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{phone}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">City</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{city}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-12">
+        <div class="card card-employee-task">
+          <div class="card-header">
+            <h4 class="card-title">Investor KYC Details</h4>
+          </div>
+          <div class="card-body">
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">
+                    Address</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{address}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">DOB</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{dob}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Gender</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{gender}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Work</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{work}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Aadhaar Number</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{aadhaar}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+               
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Pan Card Number</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{pan}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-12">
+        <div class="card card-employee-task">
+          <div class="card-header">
+            <h4 class="card-title"> Investor Balance Details</h4>
+          </div>
+          <div class="card-body">
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Investment Amount</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{investment}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Profit Balance</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{profit}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-12">
+        <div class="card card-employee-task"  *ngFor="let bank of banks">
+          <div class="card-header">
+            <h4 class="card-title">Bank Details</h4>
+          </div>
+          <div class="card-body">
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0"> Account Number</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{bank.account_number}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Bank Name</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{bank.bank_name}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">ContactID</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{bank.contact_id}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Fund Account ID</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{bank.fund_account_id}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">IFSC Code</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{bank.ifsc_code}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+               
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Name On Account</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{bank.name_on_account}}</h6>
+              </div>
+            </div>
+            <div class="employee-task d-flex justify-content-between align-items-center">
+              <div class="media">
+               
+                <div class="media-body my-auto">
+                  <h6 class="mb-0">Payment Mode</h6>
+                </div>
+              </div>
+              <div class="d-flex align-items-center">
+                <h6 class="mb-0">{{bank.payment_mode}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-primary" (click)="modal.close('Accept click')" rippleEffect>
+      Accept
+    </button> -->
+  </div>
+</ng-template>
+

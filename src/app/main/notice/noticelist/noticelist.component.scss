@@ -1,0 +1,29 @@
+@import '@core/scss/angular/libs/datatables.component.scss';
+
+.datatable-scroll {
+  width: auto !important;
+}
+.search{
+    margin-left: 1200px;
+
+}
+:host ::ng-deep.pagination-section .ngx-pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 1.357rem;
+    background-color: rgb(34 41 47 / 16%);
+}
+
+:host ::ng-deep.pagination-section .ngx-pagination .disabled{
+    padding: 0.1875rem 0.625rem;
+    color: #6e6b7b;
+    cursor: default;
+}
+
+
+:host ::ng-deep.pagination-section .ngx-pagination .current{
+    // display: none;
+    background-color: #796ef1;
+    border-radius: 12px;
+}

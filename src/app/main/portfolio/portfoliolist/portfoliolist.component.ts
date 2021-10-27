@@ -82,10 +82,12 @@ export class PortfoliolistComponent implements OnInit {
     }
 
     getAllPortfoliosList(){
-      this.afs.collectionGroup('PORTFOLIO').valueChanges({ idField: 'id' }).subscribe(data => {
+     let query = this.afs.collectionGroup('PORTFOLIO').valueChanges({ idField: 'id' }).subscribe(data => {
         this.portfolios = data
+        this.portfoliosData = [];
         this.portfolios.forEach((value: any) => {
-          this.afs.collection('INVESTORS' ).doc(value.uid).valueChanges().subscribe((result)=>{ // basic  deatils 
+          this.afs.collection('INVESTORS').doc(value.uid).valueChanges().subscribe((result)=>{ 
+            this.investors = [];
             this.investors = result;
             this.portfoliosData.push({
               fullName: this.investors.fullName,
@@ -103,7 +105,12 @@ export class PortfoliolistComponent implements OnInit {
               uid: value.uid,
             })
           });
+
         });
+        console.log(this.portfoliosData)
+
       });
+      query.unsubscribe();
+
     }
 }

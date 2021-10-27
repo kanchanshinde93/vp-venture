@@ -19,10 +19,20 @@ const routes = [
     data: { animation: 'createoffer' }
   },
   {
+    path: 'createoffer/:id',
+    component: CreateofferComponent,
+    data: { animation: 'createoffer' }
+  },
+  {
     path: 'offerlist',
     component: OfferlistComponent,
     data: { animation: 'offerlist' }
   },
+  {
+    path: 'offerlist/:id',
+    component: OfferlistComponent,
+    data: { animation: 'offerlist' }
+  }
 ];
 @NgModule({
   declarations: [
@@ -43,7 +53,6 @@ const routes = [
   ],
   providers: [
     DatePipe,
-   
   ],
   exports: [CreateofferComponent,OfferlistComponent]
 })

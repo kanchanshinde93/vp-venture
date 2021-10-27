@@ -30,6 +30,18 @@ export const locale = {
         CREATEOFFER: 'CreateOffer',
         OFFERLIST: 'OfferList'
       },
+
+      NOTICE: {
+        COLLAPSIBLE: 'Notice',
+        BADGE: '2',
+        CREATENOTICE: 'CreateNotice',
+        NOTICELIST: 'NoticeList'
+      },
+      REFERRAL: {
+        COLLAPSIBLE: 'Referral',
+        BADGE: '2',
+        REFERRALLIST: 'ReferralList'
+      },
     },
 
     

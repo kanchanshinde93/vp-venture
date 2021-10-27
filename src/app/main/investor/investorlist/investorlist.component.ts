@@ -6,6 +6,8 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angula
 // import { PortfoliolistComponent } from 'app/main/portfolio/portfoliolist/portfoliolist.component';
 import { InvestorportfolioComponent } from '../investorportfolio/investorportfolio.component';
 import {InvestortransactionlistComponent} from '../investortransactionlist/investortransactionlist.component'
+import {ToastrService} from 'ngx-toastr'
+
 @Component({
   selector: 'app-investorlist',
   templateUrl: './investorlist.component.html',
@@ -44,15 +46,10 @@ export class InvestorlistComponent implements OnInit {
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal) {
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
-  // public basicSelectedOption: number = 10;
-  // tempData:any;
-  // public SelectionType = SelectionType;
-  // public selected = [];
-
   @ViewChild(DatatableComponent) table: DatatableComponent;
   ngOnInit(): void {
     // header content 
@@ -124,9 +121,7 @@ export class InvestorlistComponent implements OnInit {
     this.page = 1;
     this.ngOnInit();// call on load function
   }
-
   getInvestorDeatilsByDocID(doc_uid){
-    console.log(doc_uid);
     this.afs.collection('INVESTORS').doc(doc_uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
       this.investors = data;
       this.fullName = this.investors.fullName
@@ -146,7 +141,6 @@ export class InvestorlistComponent implements OnInit {
       this.gender = this.investorDetails.gender
       this.dob = this.investorDetails.dob
       this.work = this.investorDetails.work
-
       this.pan = this.investorDetails.pan
     });
     this.afs.collection('INVESTORS').doc(doc_uid).collection('BANKS').valueChanges({ idField: 'id' }).subscribe((data)=>{ // bank details
@@ -160,4 +154,11 @@ export class InvestorlistComponent implements OnInit {
       this.transactions = data;
     });
   }
+  Delete(doc_id){
+    this.afs.collection('INVESTORS').doc(doc_id).delete();
+    this.toastr.success('success', 'Investor Deleted Successfully', {
+      timeOut: 3000,
+    });
+  }
+  
 }

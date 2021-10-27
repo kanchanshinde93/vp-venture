@@ -9,12 +9,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { InvestorportfolioComponent } from './investorportfolio/investorportfolio.component';
 import { InvestortransactionlistComponent } from './investortransactionlist/investortransactionlist.component';
+
+import { DatePipe } from '@angular/common';
 const routes = [
   {
     path: 'investorlist',
     component: InvestorlistComponent,
     data: { animation: 'investorlist' }
   },
+
 ];
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ const routes = [
     NgxDatatableModule,
     NgxPaginationModule,
     NgbModule
+  ],
+  providers: [
+    DatePipe,
   ],
   exports: [InvestorlistComponent]
 })

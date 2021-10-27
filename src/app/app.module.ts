@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-
 import 'hammerjs';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +11,6 @@ import { ToastrModule } from 'ngx-toastr'; // For auth after login toast
 import { CoreModule } from '@core/core.module';
 import { CoreCommonModule } from '@core/common.module';
 import { CoreSidebarModule, CoreThemeCustomizerModule } from '@core/components';
-
 import { coreConfig } from 'app/app-config';
 
 import { AppComponent } from 'app/app.component';
@@ -23,17 +21,13 @@ import {PortfolioModule} from 'app/main/portfolio/portfolio.module'
 import {TransactionModule} from 'app/main/transaction/transaction.module'
 import { VisitorModule } from './main/visitor/visitor.module';
 import { OfferModule } from './main/offer/offer.module'
-
+import { NoticeModule } from './main/notice/notice.module';
+import {  ReferralModule} from './main/referral/referral.module'
 import { AngularFireModule } from "@angular/fire/compat";
-// import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgxDatatableModule } from '@tusharghoshbd/ngx-datatable';
-import {AngularFireStorageModule, AngularFireStorageReference, AngularFireUploadTask,// StorageBucket 
-} from "@angular/fire/compat/storage";
+import {AngularFireStorageModule, AngularFireStorageReference, AngularFireUploadTask, } from "@angular/fire/compat/storage";
 import 'firebase/storage';
 import { environment } from "../environments/environment";
-// import { CreateofferComponent } from './main/offer/createoffer/createoffer.component';
-// import {ToastrModule} from 'ngx-toastr'
-
 const appRoutes: Routes = [
   {
     path: 'pages',
@@ -64,6 +58,14 @@ const appRoutes: Routes = [
   {
     path: 'offer',
     loadChildren: () => import('./main/offer/offer.module').then(m => m.OfferModule)
+  },
+  {
+    path: 'notice',
+    loadChildren: () => import('./main/notice/notice.module').then(m => m.NoticeModule)
+  },
+  {
+    path: 'referral',
+    loadChildren: () => import('./main/referral/referral.module').then(m => m.ReferralModule)
   },
   {
     path: '**',
@@ -104,7 +106,10 @@ const appRoutes: Routes = [
     InvestorModule,
     PortfolioModule,
     TransactionModule,
-    VisitorModule
+    VisitorModule,
+    OfferModule,
+    NoticeModule,
+    ReferralModule
   ],
 
   bootstrap: [AppComponent]

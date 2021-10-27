@@ -27,12 +27,13 @@ export const menu: CoreMenu[] = [
         url: 'investor/investorlist'
       },
       // {
-      //   id: 'ecommerce',
-      //   title: 'eCommerce',
-      //   translate: 'MENU.INVESTOR.ECOMMERCE',
+      //   id: 'createoffer',
+      //   title: 'Create Offer',
+      //   translate: 'MENU.OFFER.CREATEOFFER',
       //   type: 'item',
+      //   role: ['Admin'], //? To set multiple role: ['Admin', 'Client']
       //   icon: 'circle',
-      //   url: 'dashboard/ecommerce'
+      //   url: 'investor/createoffer/:id'
       // }
     ]
   },
@@ -118,23 +119,42 @@ export const menu: CoreMenu[] = [
     ]
   },
 
-  // {
-  //   id: 'transaction',
-  //   title: 'Transaction',
-  //   translate: 'MENU.TRANSACTION.COLLAPSIBLE',
-  //   type: 'collapsible',
-  //   icon: 'user',
-  //   children: [
-  //     {
-  //       id: 'transactionlist',
-  //       title: 'Transaction List',
-  //       translate: 'MENU.TRANSACTION.TRANSACTIONLIST',
-  //       type: 'item',
-  //       role: ['Admin'], //? To set multiple role: ['Admin', 'Client']
-  //       icon: 'circle',
-  //       url: 'transaction/transactionlist'
-  //     },
-  //   ]
-  // },
+  {
+    id: 'notice',
+    title: 'Notice',
+    translate: 'MENU.NOTICE.COLLAPSIBLE',
+    type: 'collapsible',
+    icon: 'user',
+    children: [
+      {
+        id: 'noticelist',
+        title: 'Notice List',
+        translate: 'MENU.NOTICE.NOTICELIST',
+        type: 'item',
+        icon: 'circle',
+        url: 'notice/noticelist'
+      }
+    ]
+  },
+
+  
+  {
+    id: 'referral',
+    title: 'Referral',
+    translate: 'MENU.REFERRAL.COLLAPSIBLE',
+    type: 'collapsible',
+    icon: 'user',
+    children: [
+      {
+        id: 'referrallist',
+        title: 'Referral List',
+        translate: 'MENU.REFERRAL.REFERRALLIST',
+        type: 'item',
+        icon: 'circle',
+        url: 'referral/referrallist'
+      }
+    ]
+  },
+ 
 
 ]

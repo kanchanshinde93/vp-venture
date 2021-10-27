@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
+import {ActivatedRoute} from "@angular/router"
 
 @Component({
   selector: 'app-offerlist',
@@ -17,13 +18,16 @@ import {ToastrService} from 'ngx-toastr'
 export class OfferlistComponent implements OnInit {
   public contentHeader: object
   offers:any
+  uid:any;
+  investors:any
+  fullName:any
   // pagination
   page = 1;
   count = 0;
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) { 
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -55,7 +59,14 @@ export class OfferlistComponent implements OnInit {
         ]
       }
     };
-    this.getAllOfferList()
+    this.uid  = this.activerouter.snapshot.paramMap.get('id'); 
+    if(this.uid){
+      this.getInvestorOfferList(this.uid)
+    }else{
+      this.getAllOfferList()
+
+    }
+
   }
     // pagination section
     handlePageChange(event: number): void { // function for angular pagination handle page change event
@@ -67,12 +78,21 @@ export class OfferlistComponent implements OnInit {
       this.page = 1;
       this.ngOnInit();// call on load function
     }
-
     //  get All Investor List From Firbase
-  getAllOfferList(){ 
-    this.afs.collection('OFFER').valueChanges({ idField: 'id' }).subscribe((data)=>{
+    getAllOfferList(){ 
+      this.afs.collection('OFFER').valueChanges({ idField: 'id' }).subscribe((data)=>{
+        this.offers = data;
+        console.log(this.offers)
+      });
+    }
+  getInvestorOfferList(uid){
+    this.afs.collection('INVESTORS').doc(uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
+      this.investors = data;
+      this.fullName = this.investors.fullName
+    });
+    this.afs.collection('OFFER', ref => ref.where('uid', '==', uid)).valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.offers = data;
-      console.log(this.offers)
+      // console.log(this.offers,"investor")
     });
   }
   delete(doc_id){
@@ -81,12 +101,11 @@ export class OfferlistComponent implements OnInit {
       timeOut: 3000,
     });
   }
-  // Update(doc_id){
-  //   this.afs.collection('OFFER').doc(doc_id).set({
-
-  //   });
-  //   this.toastr.success('success', 'Offer Deleted Successfully', {
-  //     timeOut: 3000,
-  //   });
-  // }
+  Update(doc_id){
+    this.afs.collection('OFFER').doc(doc_id).set({
+    });
+    this.toastr.success('success', 'Offer Deleted Successfully', {
+      timeOut: 3000,
+    });
+  }
 }

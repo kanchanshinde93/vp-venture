@@ -1,0 +1,48 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <app-content-header [contentHeader]="contentHeader"></app-content-header>
+      <div class="row" id="table-striped">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+        
+              <h4 class="card-title">Referral List</h4> </div>
+              <section id="ngx-datatable-kitchen-sink">
+                  <div class="row">
+                  </div>
+                  <div class="row" id="table-striped">
+                    <div class="col-12">
+                      <div class="card">
+                        <div class="table-responsive">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>Sr.No.</th>
+                                <th>Amount</th>
+                                <th>Duration</th>
+                                <th>Profit</th>
+                                <th>Date</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let referral of referrals | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                                <th scope="row">{{i + 1}}</th>
+                                <td>{{referrals.amount}}</td>
+                                <td>{{referrals.duration}}</td>
+                                <td>{{referrals.profit}}</td>
+                                <td>{{referrals.date.seconds*1000  | date: 'dd-MM-yyyy' }}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <pagination-controls previousLabel="Prev" nextLabel="Next" [responsive]="true" (pageChange)="handlePageChange($event)" class="d-flex justify-content-center pagination-section"></pagination-controls> -->
+              </section>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  

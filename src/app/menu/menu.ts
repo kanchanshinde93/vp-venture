@@ -26,15 +26,15 @@ export const menu: CoreMenu[] = [
         icon: 'circle',
         url: 'investor/investorlist'
       },
-      // {
-      //   id: 'createoffer',
-      //   title: 'Create Offer',
-      //   translate: 'MENU.OFFER.CREATEOFFER',
-      //   type: 'item',
-      //   role: ['Admin'], //? To set multiple role: ['Admin', 'Client']
-      //   icon: 'circle',
-      //   url: 'investor/createoffer/:id'
-      // }
+      {
+        id: 'acitveinvestorlist',
+        title: 'Active Investor List',
+        translate: 'MENU.INVESTOR.ACTIVEINVESTORLIST',
+        type: 'item',
+        role: ['Admin'], //? To set multiple role: ['Admin', 'Client']
+        icon: 'circle',
+        url: 'investor/acitveinvestorlist'
+      }
     ]
   },
   {
@@ -146,6 +146,14 @@ export const menu: CoreMenu[] = [
     icon: 'user',
     children: [
       {
+        id: 'createreferral',
+        title: 'Create Referral Commission',
+        translate: 'MENU.REFERRAL.CREATEREFERRAL',
+        type: 'item',
+        icon: 'circle',
+        url: 'referral/createreferral'
+      },
+      {
         id: 'referrallist',
         title: 'Referral List',
         translate: 'MENU.REFERRAL.REFERRALLIST',
@@ -155,6 +163,25 @@ export const menu: CoreMenu[] = [
       }
     ]
   },
+
+  
+  {
+    id: 'support',
+    title: 'Support',
+    translate: 'MENU.SUPPORT.COLLAPSIBLE',
+    type: 'collapsible',
+    icon: 'user',
+    children: [
+      {
+        id: 'supportlist',
+        title: 'Support List',
+        translate: 'MENU.SUPPORT.SUPPORTLIST',
+        type: 'item',
+        icon: 'circle',
+        url: 'support/supportlist'
+      }
+    ]
+  }
  
 
 ]

@@ -15,7 +15,7 @@ import { User } from 'app/auth/models';
 
 import { coreConfig } from 'app/app-config';
 import { Router } from '@angular/router';
-
+import { AngularFireAuth } from "@angular/fire/compat/auth";
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -81,7 +81,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private _coreMediaService: CoreMediaService,
     private _coreSidebarService: CoreSidebarService,
     private _mediaObserver: MediaObserver,
-    public _translateService: TranslateService
+    public _translateService: TranslateService,
+    public afAuth: AngularFireAuth // Inject Firebase auth service
   ) {
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
 
@@ -161,14 +162,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Logout method
-   */
-  logout() {
-    this._authenticationService.logout();
-    this._router.navigate(['/pages/authentication/login-v2']);
+  logOut() {
+    localStorage.setItem('loggedIn', 'false');
+    this._router.navigate(['/adminlogin']);
+    
   }
-
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 

@@ -4,9 +4,7 @@
       <div class="row" id="table-striped">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-        
-              <h4 class="card-title">Referral List</h4> </div>
+            <div class="card-header"><h4 class="card-title">Active Investor List</h4></div>
               <section id="ngx-datatable-kitchen-sink">
                   <div class="row">
                   </div>
@@ -18,19 +16,26 @@
                             <thead>
                               <tr>
                                 <th>Sr.No.</th>
-                                <th>Referral By Name</th>
-                                <th>Referral By Phone</th>
                                 <th>Full Name</th>
+                                <th>Email</th>
                                 <th>Phone</th>
+                                <th>City</th>
+                                <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let referral of referralsData | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <tr *ngFor="let investor of investors | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
-                                <td>{{referral.fullName}}</td>
-                                <td>{{referral.phone}}</td>
-                                <td>{{referral.referralsfullName}}</td>
-                                <td>{{referral.referralsPhone}}</td>
+                                <td>{{investor.fullName}}</td>
+                                <td>{{investor.email}}</td>
+                                <td>{{investor.phone}}</td>
+                                <td>{{investor.city}}</td>
+                                <!-- <td><span class="badge badge-pill badge-light-warning mr-1">Pending</span></td> -->
+                                <td class="overflow-hidden">
+                                  <span class="delete-button" >
+                                    <button (click)="Delete(investor.uid)" class="btn btn-icon btn-danger waves-effect waves-float waves-light"><i data-feather="trash" class="mr-50"></i></button>
+                                </span>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
@@ -45,4 +50,5 @@
         </div>
     </div>
   </div>
+ 
   

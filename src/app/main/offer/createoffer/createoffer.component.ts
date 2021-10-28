@@ -54,7 +54,7 @@ export class CreateofferComponent implements OnInit {
       profit: new FormControl('', [Validators.required]),
       duration: new FormControl('', [Validators.required]),
       date: new FormControl('', [Validators.required]),
-      uid :new FormControl( this.uid, [Validators.required])
+      uid :new FormControl(this.uid, [Validators.required])
     });
   }
   onSubmit() {

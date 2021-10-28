@@ -1,10 +1,15 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+
+
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
+
+
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber ,signInWithEmailAndPassword } from "firebase/auth";
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -56,11 +61,33 @@ export class AuthLoginV2Component implements OnInit {
     };
   }
 
+  /**
+   * On init
+   */
+   ngOnInit(): void {
+    this.loginForm = new FormGroup({ // Login Form Input Field
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
+
+    });
+    console.log(localStorage.getItem('loggedIn'));
+    if(localStorage.getItem('loggedIn') === 'true'){
+      this._router.navigate(['/home']);
+    }else{
+      this._router.navigate(['/adminlogin']);
+    }
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
+
+    // Subscribe to config changes
+    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
+      this.coreConfig = config;
+    });
+  }
   // convenience getter for easy access to form fields
   get f() {
     return this.loginForm.controls;
   }
-
   /**
    * Toggle password
    */
@@ -70,41 +97,41 @@ export class AuthLoginV2Component implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
+    }else{
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth,  this.loginForm.value["email"], this.loginForm.value["password"])
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          localStorage.setItem('loggedIn', 'true');
+            // redirect to home page
+          setTimeout(() => {
+            this._router.navigate(['/home']);
+          }, 100);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage)
+          setTimeout(() => {
+            this._router.navigate(['/adminlogin']);
+          }, 100);
+
+        })
     }
 
     // Login
     this.loading = true;
 
-    // redirect to home page
-    setTimeout(() => {
-      this._router.navigate(['/']);
-    }, 100);
+  
   }
 
   // Lifecycle Hooks
   // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-    this.loginForm = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
-
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
-
-    // Subscribe to config changes
-    this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
-      this.coreConfig = config;
-    });
-  }
 
   /**
    * On destroy

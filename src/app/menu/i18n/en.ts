@@ -7,7 +7,7 @@ export const locale = {
         COLLAPSIBLE: 'Investors',
         BADGE: '2',
         INVESTORLIST: 'Investorlist',
-        // ECOMMERCE: 'eCommerce'
+        ACTIVEINVESTORLIST: 'ActiveInvestorlist',
       },
       PORTFOLIO: {
         COLLAPSIBLE: 'Portfolios',
@@ -40,7 +40,15 @@ export const locale = {
       REFERRAL: {
         COLLAPSIBLE: 'Referral',
         BADGE: '2',
+        CREATEREFERRAL: 'CreateReferralCommission',
         REFERRALLIST: 'ReferralList'
+      },
+
+      
+      SUPPORT: {
+        COLLAPSIBLE: 'Support',
+        BADGE: '2',
+        SUPPORTLIST: 'SupportList'
       },
     },
 

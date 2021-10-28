@@ -15,13 +15,15 @@ import { coreConfig } from 'app/app-config';
 
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
-import { SampleModule } from 'app/main/sample/sample.module';
+import {HomeModule} from './main/home/home.module'
 import {InvestorModule} from 'app/main/investor/investor.module'
 import {PortfolioModule} from 'app/main/portfolio/portfolio.module'
 import {TransactionModule} from 'app/main/transaction/transaction.module'
 import { VisitorModule } from './main/visitor/visitor.module';
 import { OfferModule } from './main/offer/offer.module'
 import { NoticeModule } from './main/notice/notice.module';
+import { SupportModule} from './main/support/support.module';
+import {AuthenticationModule } from './main/pages/authentication/authentication.module'
 import {  ReferralModule} from './main/referral/referral.module'
 import { AngularFireModule } from "@angular/fire/compat";
 import { NgxDatatableModule } from '@tusharghoshbd/ngx-datatable';
@@ -33,11 +35,19 @@ const appRoutes: Routes = [
     path: 'pages',
     loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
   },
-  
   {
     path: '',
-    redirectTo: '/home',
+    redirectTo: '/adminlogin',
     pathMatch: 'full'
+  },
+    
+  {
+    path: 'adminlogin',
+    loadChildren: () => import('./main/pages/authentication/authentication.module').then(m => m.AuthenticationModule)
+  },
+  {
+    path: 'home',
+    loadChildren: () => import('./main/home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'investor',
@@ -66,6 +76,10 @@ const appRoutes: Routes = [
   {
     path: 'referral',
     loadChildren: () => import('./main/referral/referral.module').then(m => m.ReferralModule)
+  },
+  {
+    path: 'support',
+    loadChildren: () => import('./main/support/support.module').then(m => m.SupportModule)
   },
   {
     path: '**',
@@ -102,14 +116,16 @@ const appRoutes: Routes = [
     AngularFireStorageModule,
     // App modules
     LayoutModule,
-    SampleModule,
     InvestorModule,
     PortfolioModule,
     TransactionModule,
     VisitorModule,
     OfferModule,
     NoticeModule,
-    ReferralModule
+    ReferralModule,
+    HomeModule,
+    SupportModule,
+    AuthenticationModule
   ],
 
   bootstrap: [AppComponent]

@@ -21,9 +21,10 @@ export class ReferrallistComponent implements OnInit {
   uid:any;
   investors=[];
   fullName:any
-  referralsData:any;
+  referralsData:any =[];
   ReferralQuerySubscription:any;
   RefferedByInvestorDetails:any
+  RefferedByInvestor:any;
   RefferedQuerySubscription:any
   // pagination
   page = 1;
@@ -79,41 +80,41 @@ export class ReferrallistComponent implements OnInit {
   }
      //  get All Referra List From Firbase
       getAllReferralList(){
-        
+        debugger
         let ReferralQuery= (this.afs.collection('REFERRAL').get());
         this.ReferralQuerySubscription = ReferralQuery.subscribe(ReferralQueryData => {
+          console.log(ReferralQueryData)
           ReferralQueryData.forEach((RefferalDocuments) => { 
-            console.log("document id  : " + RefferalDocuments.id);
-            this.afs.collection('REFERRAL').doc(RefferalDocuments.id).collection('Data').get().subscribe((RefferedByInvestorDocId) => { 
-              RefferedByInvestorDocId.forEach((RefferedByInvestorDocuments) => { 
+            console.log(RefferalDocuments.id)
               this.afs.collection('INVESTORS',  ref => ref.where('phone', '==', RefferalDocuments.id)).valueChanges().subscribe(RefferedByInvestorDetails=>{
-                this.RefferedByInvestorDetails = RefferedByInvestorDetails
-                console.log("Reffered By data  : ", this.RefferedByInvestorDetails);
-                // console.log() 
-                // this.investors.push({
-                //   refferedbyname: this.RefferedByInvestorDetails.fullName,
-                //   refferedbyphone: this.RefferedByInvestorDetails.phone
-                // })              
-                });
+                  this.RefferedByInvestor = RefferedByInvestorDetails
               });
-            });
-
             let RefferedQuery =  (this.afs.collection('REFERRAL').doc(RefferalDocuments.id).collection('Data').get());
             this.RefferedQuerySubscription = RefferedQuery.subscribe((InvestorRawData) => {
                 InvestorRawData.forEach((InvestorDocuments) => {
                   this.afs.collection('INVESTORS').doc(InvestorDocuments.id).valueChanges().subscribe((InvestorDetails)=>{
                     this.referrals = InvestorDetails
+                    this.RefferedByInvestor.forEach((key) => {
+                      key["referralsfullName"] = this.referrals.fullName
+                      key["referralsPhone"] = this.referrals.phone
+                    })
+                    this.RefferedByInvestorDetails = this.RefferedByInvestor
+                    this.RefferedByInvestorDetails.forEach(element => {
+                      this.referralsData.push(
+                        {
+                          referralsfullName:element.referralsfullName,
+                          referralsPhone:element.referralsPhone,
+                          fullName:element.fullName,
+                          phone:element.phone
+                        }
+                      )
+                    });
+                    console.log(this.referralsData, "referralsData");
                   });
-                  this.RefferedByInvestorDetails.forEach((key) => {
-                    key["referralsfullName"] = this.referrals.fullName
-                  })
-                  this.referralsData =  this.RefferedByInvestorDetails
-                  console.log(this.referralsData, "referralsData");
                 });
                 this.RefferedQuerySubscription.unsubscribe();
               });
             });
-            
           this.ReferralQuerySubscription.unsubscribe();
         });
 

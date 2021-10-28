@@ -4,11 +4,10 @@
       <div class="row" id="table-striped">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-        
-              <h4 class="card-title">Referral List</h4> </div>
+            <div class="card-header"><h4 class="card-title">Support List</h4></div>
               <section id="ngx-datatable-kitchen-sink">
                   <div class="row">
+                   
                   </div>
                   <div class="row" id="table-striped">
                     <div class="col-12">
@@ -18,19 +17,17 @@
                             <thead>
                               <tr>
                                 <th>Sr.No.</th>
-                                <th>Referral By Name</th>
-                                <th>Referral By Phone</th>
-                                <th>Full Name</th>
+                                <th>Email</th>
                                 <th>Phone</th>
+                                <th>Address</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let referral of referralsData | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <tr *ngFor="let support of supports| paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
-                                <td>{{referral.fullName}}</td>
-                                <td>{{referral.phone}}</td>
-                                <td>{{referral.referralsfullName}}</td>
-                                <td>{{referral.referralsPhone}}</td>
+                                <td>{{support.email}}</td>
+                                <td>{{support.phone}}</td>
+                                <td>{{support.address}}</td>
                               </tr>
                             </tbody>
                           </table>

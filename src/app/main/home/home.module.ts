@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HomeComponent } from './home/home.component';
+
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { CoreCommonModule } from '@core/common.module';
@@ -11,25 +13,18 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { DatePipe } from '@angular/common';
 import {ToastrModule} from 'ngx-toastr';
-import { ReferrallistComponent } from './referrallist/referrallist.component';
-import { ReferralcommissionComponent } from './referralcommission/referralcommission.component';
+
 
 const routes = [
   {
-    path: 'createreferral',
-    component: ReferralcommissionComponent,
-    data: { animation: 'createreferral' }
-  },
-  {
-    path: 'referrallist',
-    component: ReferrallistComponent,
-    data: { animation: 'referrallist' }
-  },
+    path: 'home',
+    component: HomeComponent,
+    data: { animation: 'home' }
+  }
 ];
 @NgModule({
   declarations: [
-    ReferrallistComponent,
-    ReferralcommissionComponent
+    HomeComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +39,7 @@ const routes = [
     FormsModule,
     ToastrModule
   ],
-  exports: [ReferrallistComponent,ReferralcommissionComponent]
+  exports: [HomeComponent]
 
 })
-export class ReferralModule { }
+export class HomeModule { }

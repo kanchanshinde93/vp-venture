@@ -7,29 +7,24 @@ import { ContentHeaderModule } from 'app/layout/components/content-header/conten
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { DatePipe } from '@angular/common';
 import {ToastrModule} from 'ngx-toastr';
-import { ReferrallistComponent } from './referrallist/referrallist.component';
-import { ReferralcommissionComponent } from './referralcommission/referralcommission.component';
+
+import { SupportComponent } from './support/support.component';
 
 const routes = [
+
   {
-    path: 'createreferral',
-    component: ReferralcommissionComponent,
-    data: { animation: 'createreferral' }
-  },
-  {
-    path: 'referrallist',
-    component: ReferrallistComponent,
-    data: { animation: 'referrallist' }
+    path: 'supportlist',
+    component: SupportComponent,
+    data: { animation: 'supportlist' }
   },
 ];
+
+
 @NgModule({
   declarations: [
-    ReferrallistComponent,
-    ReferralcommissionComponent
+    SupportComponent
   ],
   imports: [
     CommonModule,
@@ -44,7 +39,7 @@ const routes = [
     FormsModule,
     ToastrModule
   ],
-  exports: [ReferrallistComponent,ReferralcommissionComponent]
+  exports: [SupportComponent]
 
 })
-export class ReferralModule { }
+export class SupportModule { }

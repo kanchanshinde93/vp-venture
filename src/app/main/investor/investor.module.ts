@@ -11,6 +11,7 @@ import { InvestorportfolioComponent } from './investorportfolio/investorportfoli
 import { InvestortransactionlistComponent } from './investortransactionlist/investortransactionlist.component';
 
 import { DatePipe } from '@angular/common';
+import { ActiveinvestorlistComponent } from './activeinvestorlist/activeinvestorlist.component';
 const routes = [
   {
     path: 'investorlist',
@@ -18,12 +19,19 @@ const routes = [
     data: { animation: 'investorlist' }
   },
 
+  {
+    path: 'acitveinvestorlist',
+    component: ActiveinvestorlistComponent,
+    data: { animation: 'acitveinvestorlist' }
+  },
+
 ];
 @NgModule({
   declarations: [
     InvestorlistComponent,
     InvestorportfolioComponent,
-    InvestortransactionlistComponent
+    InvestortransactionlistComponent,
+    ActiveinvestorlistComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -37,6 +45,6 @@ const routes = [
   providers: [
     DatePipe,
   ],
-  exports: [InvestorlistComponent]
+  exports: [InvestorlistComponent, ActiveinvestorlistComponent]
 })
 export class InvestorModule { }

@@ -28,6 +28,7 @@ import {  ReferralModule} from './main/referral/referral.module'
 import { AngularFireModule } from "@angular/fire/compat";
 import { NgxDatatableModule } from '@tusharghoshbd/ngx-datatable';
 import {AngularFireStorageModule, AngularFireStorageReference, AngularFireUploadTask, } from "@angular/fire/compat/storage";
+import { Angular2CsvModule } from 'angular2-csv';
 import 'firebase/storage';
 import { environment } from "../environments/environment";
 const appRoutes: Routes = [
@@ -106,6 +107,7 @@ const appRoutes: Routes = [
       // positionClass: 'toast-bottom-right'
     }),
     NgxDatatableModule,
+    Angular2CsvModule,
     // Core modules
     CoreModule.forRoot(coreConfig),
     CoreCommonModule,

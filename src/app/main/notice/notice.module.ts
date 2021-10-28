@@ -11,6 +11,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import {ToastrModule} from 'ngx-toastr';
 import { CreatenoticeComponent } from './createnotice/createnotice.component';
 import { NoticelistComponent } from './noticelist/noticelist.component'
+import { Angular2CsvModule } from 'angular2-csv';
 
 const routes = [
   {
@@ -41,7 +42,8 @@ const routes = [
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
-    ToastrModule
+    ToastrModule,
+    Angular2CsvModule
   ],
   exports: [CreatenoticeComponent,NoticelistComponent]
 

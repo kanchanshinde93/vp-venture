@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
+
 @Component({
   selector: 'app-noticelist',
   templateUrl: './noticelist.component.html',
@@ -23,6 +24,18 @@ export class NoticelistComponent implements OnInit {
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
+   options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    headers: ['Notice Title'],
+    showTitle: false,
+    useBom: true,
+    removeNewLines: false,
+    keys: ['title']
+
+  };
+  
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) { 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -70,10 +83,10 @@ export class NoticelistComponent implements OnInit {
 
   //  get All Investor List From Firbase
 getAllNoticeList(){ 
-  this.afs.collection('NOTICE').valueChanges({ idField: 'id' }).subscribe((data)=>{
+  this.afs.collection('NOTICE').valueChanges().subscribe((data)=>{
     this.notices = data;
     this.length = this.notices.length;
-    console.log(this.notices.length)
+    console.log(this.notices)
   });
 }
 delete(doc_id){

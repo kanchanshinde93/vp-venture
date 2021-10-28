@@ -46,6 +46,17 @@ export class InvestorlistComponent implements OnInit {
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    headers: ['Full Name','Email', 'Phone', 'City'],
+    showTitle: false,
+    useBom: true,
+    removeNewLines: false,
+    keys: ['title']
+
+  };
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) {
     config.backdrop = 'static';
     config.keyboard = false;

@@ -5,10 +5,14 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header"><h4 class="card-title">Notice List</h4>
+
+
             <span *ngIf="length=== 0">
+              <angular2csv [data]="notices" class="csv" filename="notices.csv" [options]="options"></angular2csv>
                <a href="/notice/createnotice" class="btn btn-icon btn-warning  waves-effect waves-float waves-light">Create Notice</a>
             </span>
             <span *ngIf="length > 0">
+                         <angular2csv [data]="notices" class="csv" filename="notices.csv" [options]="options"></angular2csv>
                 <button disabled  class="btn btn-icon btn-warning  waves-effect waves-float waves-light">Create Notice</button>
              </span>
             </div>

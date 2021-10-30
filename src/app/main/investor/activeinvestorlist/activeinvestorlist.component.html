@@ -4,7 +4,11 @@
       <div class="row" id="table-striped">
         <div class="col-12">
           <div class="card">
-            <div class="card-header"><h4 class="card-title">Active Investor List</h4></div>
+            <div class="card-header"><h4 class="card-title">Active Investor List</h4>
+              <span>
+                <angular2csv [data]="investors" class="csv" filename="investors.csv" [options]="options"></angular2csv>
+              </span>
+            </div>
               <section id="ngx-datatable-kitchen-sink">
                   <div class="row">
                   </div>

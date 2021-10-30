@@ -22,6 +22,7 @@ import {TransactionModule} from 'app/main/transaction/transaction.module'
 import { VisitorModule } from './main/visitor/visitor.module';
 import { OfferModule } from './main/offer/offer.module'
 import { NoticeModule } from './main/notice/notice.module';
+import { PayoutModule } from './main/payout/payout.module';
 import { SupportModule} from './main/support/support.module';
 import {AuthenticationModule } from './main/pages/authentication/authentication.module'
 import {  ReferralModule} from './main/referral/referral.module'
@@ -31,6 +32,7 @@ import {AngularFireStorageModule, AngularFireStorageReference, AngularFireUpload
 import { Angular2CsvModule } from 'angular2-csv';
 import 'firebase/storage';
 import { environment } from "../environments/environment";
+
 const appRoutes: Routes = [
   {
     path: 'pages',
@@ -77,6 +79,10 @@ const appRoutes: Routes = [
   {
     path: 'referral',
     loadChildren: () => import('./main/referral/referral.module').then(m => m.ReferralModule)
+  },
+  {
+    path: 'payout',
+    loadChildren: () => import('./main/payout/payout.module').then(m => m.PayoutModule)
   },
   {
     path: 'support',
@@ -127,7 +133,8 @@ const appRoutes: Routes = [
     ReferralModule,
     HomeModule,
     SupportModule,
-    AuthenticationModule
+    AuthenticationModule,
+    PayoutModule
   ],
 
   bootstrap: [AppComponent]

@@ -23,15 +23,26 @@ export class ReferrallistComponent implements OnInit {
   fullName:any
   referralsData:any =[];
   ReferralQuerySubscription:any;
-  RefferedByInvestorDetails:any
-  RefferedByInvestor:any;
-  RefferedQuerySubscription:any
+  ReferredByInvestorDetails:any
+  ReferredByInvestor:any;
+  ReferredQuerySubscription:any
   // pagination
   page = 1;
   count = 0;
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    headers: ['Referral By Name','Referral By Phone', 'Full Name', 'Phone'],
+    showTitle: false,
+    useBom: true,
+    removeNewLines: false,
+    keys: ['fullName','phone', 'referralsfullName', 'referralsPhone']
+
+  };
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -80,26 +91,24 @@ export class ReferrallistComponent implements OnInit {
   }
      //  get All Referra List From Firbase
       getAllReferralList(){
-        debugger
         let ReferralQuery= (this.afs.collection('REFERRAL').get());
         this.ReferralQuerySubscription = ReferralQuery.subscribe(ReferralQueryData => {
-          console.log(ReferralQueryData)
           ReferralQueryData.forEach((RefferalDocuments) => { 
             console.log(RefferalDocuments.id)
-              this.afs.collection('INVESTORS',  ref => ref.where('phone', '==', RefferalDocuments.id)).valueChanges().subscribe(RefferedByInvestorDetails=>{
-                  this.RefferedByInvestor = RefferedByInvestorDetails
+              this.afs.collection('INVESTORS',  ref => ref.where('phone', '==', RefferalDocuments.id)).valueChanges().subscribe(ReferredByInvestorDetails=>{
+                  this.ReferredByInvestor = ReferredByInvestorDetails // get Referred By Investor details by Investor phone number
               });
-            let RefferedQuery =  (this.afs.collection('REFERRAL').doc(RefferalDocuments.id).collection('Data').get());
-            this.RefferedQuerySubscription = RefferedQuery.subscribe((InvestorRawData) => {
+            let ReferredQuery =  (this.afs.collection('REFERRAL').doc(RefferalDocuments.id).collection('Data').get());
+            this.ReferredQuerySubscription = ReferredQuery.subscribe((InvestorRawData) => {
                 InvestorRawData.forEach((InvestorDocuments) => {
-                  this.afs.collection('INVESTORS').doc(InvestorDocuments.id).valueChanges().subscribe((InvestorDetails)=>{
-                    this.referrals = InvestorDetails
-                    this.RefferedByInvestor.forEach((key) => {
+                    this.referrals = InvestorDocuments.data()
+                    console.log( this.referrals)
+                    this.ReferredByInvestor.forEach((key) => {
                       key["referralsfullName"] = this.referrals.fullName
                       key["referralsPhone"] = this.referrals.phone
                     })
-                    this.RefferedByInvestorDetails = this.RefferedByInvestor
-                    this.RefferedByInvestorDetails.forEach(element => {
+                    this.ReferredByInvestorDetails = this.ReferredByInvestor
+                    this.ReferredByInvestorDetails.forEach(element => {
                       this.referralsData.push(
                         {
                           referralsfullName:element.referralsfullName,
@@ -110,56 +119,16 @@ export class ReferrallistComponent implements OnInit {
                       )
                     });
                     console.log(this.referralsData, "referralsData");
-                  });
                 });
-                this.RefferedQuerySubscription.unsubscribe();
+                this.ReferredQuerySubscription.unsubscribe();
               });
             });
           this.ReferralQuerySubscription.unsubscribe();
         });
 
+
+
         
-        // this.afs.collection("REFERRAL").get().subscribe((querySnapshot) => {
-        //   querySnapshot.forEach((RefferalDocuments) => {
-        //     console.log("document id  : " + RefferalDocuments.id);
-        //     this.afs.collection('INVESTORS',  ref => ref.where('phone', '==', RefferalDocuments.id)).valueChanges().subscribe((InvestorDetails)=>{
-        //       console.log("Reffered By data  : ");
-        //       console.log(InvestorDetails);                 
-        //     });
-        //     this.afs.collection('REFERRAL').doc(RefferalDocuments.id).collection('Data').get().subscribe((InvestorRawData) => {
-        //       InvestorRawData.forEach((InvestorDocuments) => {
-        //         console.log("Investor id  : " + InvestorDocuments.id);
-        //         this.afs.collection('INVESTORS').doc(InvestorDocuments.id).valueChanges().subscribe((InvestorDetails)=>{
-        //           console.log("Investor data  : ");
-        //           console.log(InvestorDetails);                 
-        //         });
-        //       });
-        //     });
-        //   });
-        // });
-
-
-
-
-        // this.afs.collection("REFERRAL").get().subscribe((querySnapshot) => {
-        //   this.investors = [];
-        //   querySnapshot.forEach((doc) => {
-        //       this.afs.collection('REFERRAL').doc(doc.id).collection('Data').get().subscribe((data) => {
-        //         data.forEach((docresult) => {
-        //           console.log(`${docresult.id} => ${docresult.data()}`);
-        //           this.afs.collection('INVESTORS').doc(docresult.id).valueChanges().subscribe((result)=>{ 
-        //             this.referrals = result;
-        //             console.log(this.referrals, "referrals")
-        //           });
-        //         });
-        //       });
-        //       console.log(`${doc.id} => ${doc.data()}`);              
-        //       this.afs.collection('INVESTORS', ref => ref.where('phone', '==', doc.id)).valueChanges().subscribe((result)=>{ 
-        //         this.investors = [];
-        //         this.investors = result;
-        //         console.log(this.investors, "investors")
-        //       });
-        //     });
-        // });
+      
       }
 }

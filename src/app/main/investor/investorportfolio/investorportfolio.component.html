@@ -1,6 +1,8 @@
 <div class="modal-header">
     <h5 class="modal-title" id="myModalLabel160">{{fullName}} Portfolio Details</h5>
-    <!-- <a type="button" (click)="modal.dismiss('Cross click')"  (click)="portfolioDetails(doc_uid)" ngbTooltip="Portfolio" class="btn btn-relief-info">portfolio Details</a> -->
+    <span class="csv-button">
+      <angular2csv [data]="portfolios" class="csv" filename="investorsportfolio.csv" [options]="options"></angular2csv>
+    </span>
     <button type="button" class="close" #viewInvestor (click)="close()"aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -28,8 +30,8 @@
                                 <th>Locking</th>
                                 <th>Profit</th>
                                 <th>Rate</th>
-                                <th>Date</th>
-                                <th>Time</th>
+                                <th>Date / Time</th>
+                         
                                 <!-- <th>Actions</th> -->
                               </tr>
                             </thead>
@@ -40,8 +42,8 @@
                                 <td>{{portfolio.locking}}</td>
                                 <td>{{portfolio.profit}}</td>
                                 <td>{{portfolio.rate}}</td>
-                                <td>{{portfolio.timestamp.toDate() | date:'dd/mm/yy'}}</td>
-                                <td>{{portfolio.timestamp.toDate() | date:'h:mm:ss'}}</td>
+                                <td>{{portfolio.timestamp}}</td>
+                            
                                 <!-- <td class="overflow-hidden"> -->
                                   <!-- <button class="btn more-link add-store-btn ml-24px" (click)="viewopen(view, portfolio.uid)"><i class="fi-rr-plus mr-12px lh-0"></i>view</button> -->
                                  <!-- <a (click)="addBook(investor.uid)"><i data-feather="trash" class="mr-50"></i><span>Delete</span></a> -->

@@ -17,6 +17,16 @@ export class VisitorlistComponent implements OnInit {
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    headers: ['Full Name','Email', 'Phone', 'City'],
+    showTitle: false,
+    useBom: true,
+    removeNewLines: false,
+    keys: ['fullname','email', 'phone', 'city']
+  };
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal) {
     config.backdrop = 'static';
     config.keyboard = false;

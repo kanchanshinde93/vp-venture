@@ -1,6 +1,9 @@
 
 <div class="modal-header">
     <h5 class="modal-title" id="myModalLabel160">{{fullName}} Transactions Details</h5>
+    <span class="csv-button">
+      <angular2csv [data]="transactions" class="csv" filename="investorstransaction.csv" [options]="options"></angular2csv>
+    </span>
     <!-- <a type="button" (click)="modal.dismiss('Cross click')"  (click)="portfolioDetails(doc_uid)" ngbTooltip="Portfolio" class="btn btn-relief-info">portfolio Details</a> -->
     <button type="button" class="close" #viewInvestor (click)="close()"aria-label="Close">
       <span aria-hidden="true">&times;</span>
@@ -39,17 +42,16 @@
                                 <th>Sr.No.</th>
                                 <th>Amount</th>
                                 <th>Reason</th>
-                                <th>Date</th>
-                                <th>Time</th>
+                                <th>Date / Time</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let transaction of transactionData| paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <tr *ngFor="let transaction of transactions| paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{transaction.amount}}</td>
                                 <td>{{transaction.reason}}</td>
-                                <td>{{transaction.timestamp.toDate() | date:'dd/mm/yy'}}</td>
-                                <td>{{transaction.timestamp.toDate() | date:'h:mm:ss'}}</td>
+                                <td>{{transaction.timestamp}}</td>
+                              
                                
                               </tr>
                             </tbody>

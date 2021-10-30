@@ -43,6 +43,12 @@ export const locale = {
         CREATEREFERRAL: 'CreateReferralCommission',
         REFERRALLIST: 'ReferralList'
       },
+      PAYOUT: {
+        COLLAPSIBLE: 'Payout',
+        BADGE: '2',
+        ALLPAYOUTLIST: 'AllPayoutList',
+        // REFERRALLIST: 'ReferralList'
+      },
 
       
       SUPPORT: {

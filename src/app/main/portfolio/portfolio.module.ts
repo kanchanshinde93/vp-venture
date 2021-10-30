@@ -9,6 +9,8 @@ import { PortfoliolistComponent } from './portfoliolist/portfoliolist.component'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { Angular2CsvModule } from 'angular2-csv';
+
 const routes = [
   {
     path: 'portfoliolist',
@@ -28,7 +30,8 @@ const routes = [
     CoreCommonModule,
     NgxDatatableModule,
     NgxPaginationModule,
-    NgbModule
+    NgbModule,
+    Angular2CsvModule
   ],
   exports: [PortfoliolistComponent]
 })

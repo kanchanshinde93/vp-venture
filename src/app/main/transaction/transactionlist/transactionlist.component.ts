@@ -3,6 +3,7 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angular bootsrap modal
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-transactionlist',
@@ -22,6 +23,8 @@ export class TransactionlistComponent implements OnInit {
   // transaction
   transaction:any;
   transactionData:any = [];
+  transactionQueryData :any
+
   amount:any
   id:any
   reason:any
@@ -35,7 +38,18 @@ export class TransactionlistComponent implements OnInit {
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal) { 
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    headers: ['Full Name','Phone','Amount','Reason'],
+    showTitle: false,
+    useBom: true,
+    removeNewLines: false,
+    keys: ['fullName','phone','amount','reason']
+  
+  };
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public datePipe: DatePipe) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -82,42 +96,26 @@ export class TransactionlistComponent implements OnInit {
     }
 
     getAllTransactionList(){ 
-      this.afs.collectionGroup('TRANSACTION').valueChanges({ idField: 'id' }).subscribe(data => {
-        this.transaction = data
-        console.log(data.length)
-        for (var i=0; i <= data.length; i++){
-          console.log(data[i])
-          console.log(data[i]['amount'])
-
-          this.amount= data[i]['amount'],
-          this.id= data[i]['id'],
-          this.reason= data[i]['reason'],
-          this.status= data[i]['status'],
-          this.type= data[i]['type'],
-          this.timestamp= data[i]['timestamp'],
-          this.uid= data[i]['uid'],
-          this.afs.collection('INVESTORS').doc(data[i]['uid']).valueChanges({ idField: 'id' }).subscribe((result)=>{ // basic  deatils 
-            this.investors = result;
-            this.fullName =  this.investors.fullName,
-            this.email =  this.investors.email,
-            this.phone =  this.investors.phone,
-            this.city =  this.investors.city,
-            this.transactionData.push({
-              fullName: this.investors.fullName,
-              email: this.investors.email,
-              phone: this.investors.phone,
-              city: this.investors.city,
-              id: this.id,
-              reason:this.reason,
-              status:this.status,
-              type:this.type,
-              timestamp:this.timestamp,
-              uid:this.uid
-            })
+    let transactionQuery =  (this.afs.collectionGroup('TRANSACTION').get());
+    this.transactionQueryData = transactionQuery.subscribe((transactionRawData) => { 
+      transactionRawData.forEach((transactionDocuments) => { 
+        let transactions = transactionDocuments.data();
+        var date =  this.datePipe.transform(transactions["timestamp"].toDate(),"medium");
+        this.afs.collection('INVESTORS',  ref => ref.where('uid', '==', transactions["uid"])).doc(transactions["uid"]).valueChanges().subscribe(InvestorDetails=>{
+              this.investors = InvestorDetails // get  Investor details by transactions uid 
+              transactions["fullName"] =  this.investors.fullName
+              transactions["phone"] =  this.investors.phone
+              transactions["timestamp"] = date
           });
-        }
-        console.log(this.transactionData, "transaction")
+        this.transactionData.push(transactions);
+        });
+        
+      this.transactionQueryData.unsubscribe();
     });
+    console.log(this.transactionData ,"potfolios")
+
+
+
     }
 
 

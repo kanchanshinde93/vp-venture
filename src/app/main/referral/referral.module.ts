@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 import {ToastrModule} from 'ngx-toastr';
 import { ReferrallistComponent } from './referrallist/referrallist.component';
 import { ReferralcommissionComponent } from './referralcommission/referralcommission.component';
+import { Angular2CsvModule } from 'angular2-csv';
 
 const routes = [
   {
@@ -42,7 +43,8 @@ const routes = [
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
-    ToastrModule
+    ToastrModule,
+    Angular2CsvModule
   ],
   exports: [ReferrallistComponent,ReferralcommissionComponent]
 

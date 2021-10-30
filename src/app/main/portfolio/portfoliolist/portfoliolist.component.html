@@ -4,7 +4,12 @@
       <div class="row" id="table-striped">
         <div class="col-12">
           <div class="card">
-            <div class="card-header"><h4 class="card-title">Portfolio List</h4></div>
+            <div class="card-header"><h4 class="card-title">Portfolio List</h4>
+              <span class="csv-button">
+                <angular2csv [data]="portfoliosData" class="csv" filename="portfolio.csv" [options]="options"></angular2csv>
+              </span>
+            
+            </div>
               <section id="ngx-datatable-kitchen-sink">
                   <div class="row">
                   </div>
@@ -17,33 +22,24 @@
                               <tr>
                                 <th>Sr.No.</th>
                                 <th>Full Name</th>
-                                <th>Email</th>
                                 <th>Phone</th>
                                 <th>Amount</th>
                                 <th>Locking</th>
                                 <th>Profit</th>
                                 <th>Rate</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <!-- <th>Actions</th> -->
+                                <th>Date / Time</th>
                               </tr>
                             </thead>
                             <tbody>
                               <tr *ngFor="let portfolio of portfoliosData | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{portfolio.fullName}}</td>
-                                <td>{{portfolio.email}}</td>
                                 <td>{{portfolio.phone}}</td>
                                 <td>{{portfolio.amount}}</td>
                                 <td>{{portfolio.locking}}</td>
                                 <td>{{portfolio.profit}}</td>
                                 <td>{{portfolio.rate}}</td>
-                                <td>{{portfolio.timestamp.toDate() | date:'dd/mm/yy'}}</td>
-                                <td>{{portfolio.timestamp.toDate() | date:'h:mm:ss'}}</td>
-                                <!-- <td class="overflow-hidden"> -->
-                                  <!-- <button class="btn more-link add-store-btn ml-24px" (click)="viewopen(view, portfolio.uid)"><i class="fi-rr-plus mr-12px lh-0"></i>view</button> -->
-                                 <!-- <a (click)="addBook(investor.uid)"><i data-feather="trash" class="mr-50"></i><span>Delete</span></a> -->
-                                <!-- </td> -->
+                                <td>{{portfolio.timestamp}}</td>
                               </tr>
                             </tbody>
                           </table>

@@ -8,7 +8,12 @@
               <h4 *ngIf="fullName" class="card-title">
                 {{fullName}} Offfer List
               </h4>
-              <h4 *ngIf="!fullName" class="card-title">Offfer List</h4> </div>
+              <h4 *ngIf="!fullName" class="card-title">Offfer List</h4> 
+              <span class="csv-button">
+                <angular2csv [data]="offers" class="csv" filename="offers.csv" [options]="options"></angular2csv>
+              </span>
+            
+            </div>
               <section id="ngx-datatable-kitchen-sink">
                   <div class="row">
                   </div>

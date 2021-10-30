@@ -7,16 +7,22 @@ import  { Observable } from 'rxjs'
 import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
-import {ToastrService} from 'ngx-toastr'
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-support',
-  templateUrl: './support.component.html',
-  styleUrls: ['./support.component.scss']
+  selector: 'app-allpayoutlist',
+  templateUrl: './allpayoutlist.component.html',
+  styleUrls: ['./allpayoutlist.component.scss']
 })
-export class SupportComponent implements OnInit {
+export class AllpayoutlistComponent implements OnInit {
+
   public contentHeader: object
-  supports:any = []
+  // basic details
+  offersData :any
+  offers:any = [];
+  investors:any
+  fullName:any
+  phone:any
   // pagination
   page = 1;
   count = 0;
@@ -27,23 +33,24 @@ export class SupportComponent implements OnInit {
     fieldSeparator: ',',
     quoteStrings: '"',
     decimalseparator: '.',
-    headers: ['Email','Address', 'Phone'],
+    headers: ['Full Name','Phone','Amount','Locking', 'Profit', 'Rate', 'Date Time'],
     showTitle: false,
     useBom: true,
     removeNewLines: false,
-    keys: ['email','address', 'phone']
-
+    keys: ['fullName','phone','amount','locking', 'profit', 'rate', 'timestamp']
+  
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) { 
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public datePipe: DatePipe) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
+  
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   ngOnInit(): void {
       // header content 
       this.contentHeader = {
-        headerTitle: 'Support List',
+        headerTitle: 'All Payout List',
         actionButton: true,
         breadcrumb: {
           type: '',
@@ -54,20 +61,21 @@ export class SupportComponent implements OnInit {
               link: '/'
             },
             {
-              name: 'Support',
+              name: 'Payout',
               isLink: true,
               link: '/'
             },
             {
-              name: 'Support List',
+              name: 'All Payout  List',
               isLink: false
             }
           ]
         }
       };
-      this.getAllSupportList()
-    }
-     // pagination section
+   this.getAllPayoutsList()
+
+  }
+   // pagination section
    handlePageChange(event: number): void { // function for angular pagination handle page change event
     this.page = event;
     this.ngOnInit();// call on load function
@@ -78,11 +86,34 @@ export class SupportComponent implements OnInit {
     this.ngOnInit();// call on load function
   }
 
-    //  get All Investor List From Firbase
-  getAllSupportList(){ 
-    this.afs.collection('CONFIG').doc('SUPPORT').valueChanges({ idField: 'id' }).subscribe((data)=>{
-      this.supports.push(data);
-    });
-  }
 
+  getAllPayoutsList(){
+   
+    this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
+      this.offersData = data;
+      this.offersData.forEach(value => {
+        this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
+            this.investors = data;
+            console.log(value)
+            var date =  this.datePipe.transform(value.timestamp.toDate(),"medium");
+            console.log(date)
+            this.fullName = this.investors.fullName
+            this.phone = this.investors.phone
+           this.offers.push({
+            fullName:this.fullName,
+            phone:this.phone,
+            amount:value.amount,
+            reason:value.reason,
+            timestamp: date,
+            type:value.type,
+        
+           }) 
+        });
+      });
+     
+      console.log(this.offers,"investor")
+    });
+  
+  }
+  
 }

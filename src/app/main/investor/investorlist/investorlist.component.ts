@@ -54,7 +54,7 @@ export class InvestorlistComponent implements OnInit {
     showTitle: false,
     useBom: true,
     removeNewLines: false,
-    keys: ['title']
+    keys: ['fullName','email', 'phone', 'city']
 
   };
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) {

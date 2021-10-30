@@ -9,6 +9,8 @@ import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
 import {ActivatedRoute} from "@angular/router"
+import { DatePipe } from '@angular/common';
+
 
 @Component({
   selector: 'app-offerlist',
@@ -17,7 +19,8 @@ import {ActivatedRoute} from "@angular/router"
 })
 export class OfferlistComponent implements OnInit {
   public contentHeader: object
-  offers:any
+  offers:any =[];
+  offersData:any 
   uid:any;
   investors:any
   fullName:any
@@ -27,7 +30,18 @@ export class OfferlistComponent implements OnInit {
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    headers: ['Amount','Duration', 'Profit', 'Date'],
+    showTitle: false,
+    useBom: true,
+    removeNewLines: false,
+    keys: ['amount','duration', 'profit',  'date']
+  
+  };
+  constructor(public afs: AngularFirestore, public datePipe: DatePipe, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -81,8 +95,22 @@ export class OfferlistComponent implements OnInit {
     //  get All Investor List From Firbase
     getAllOfferList(){ 
       this.afs.collection('OFFER').valueChanges({ idField: 'id' }).subscribe((data)=>{
-        this.offers = data;
-        console.log(this.offers)
+        this.offersData = data;
+      console.log(this.offers,"investor")
+
+        this.offersData.forEach(value => {
+          var date =  this.datePipe.transform(value.date.toDate(),"medium");
+            console.log(date)
+            this.offers.push({
+              amount:value.amount,
+              duration:value.duration,
+              profit:value.profit,
+              type:value.type,
+              date:value.date,
+            })
+          });
+      console.log(this.offers,"investor")
+
       });
     }
   getInvestorOfferList(uid){
@@ -91,8 +119,21 @@ export class OfferlistComponent implements OnInit {
       this.fullName = this.investors.fullName
     });
     this.afs.collection('OFFER', ref => ref.where('uid', '==', uid)).valueChanges({ idField: 'id' }).subscribe((data)=>{
-      this.offers = data;
-      // console.log(this.offers,"investor")
+      this.offersData = data;
+      this.offersData.forEach(value => {
+        var date =  this.datePipe.transform(value.date.toDate(),"medium");
+          console.log(date)
+          this.offers.push({
+            amount:value.amount,
+            duration:value.duration,
+            profit:value.profit,
+            type:value.type,
+            date:value.date,
+         
+          })
+        });
+     
+      console.log(this.offers,"investor")
     });
   }
   delete(doc_id){

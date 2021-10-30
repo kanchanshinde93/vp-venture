@@ -3,7 +3,6 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angular bootsrap modal
-
 import { InvestorportfolioComponent } from '../investorportfolio/investorportfolio.component';
 import {InvestortransactionlistComponent} from '../investortransactionlist/investortransactionlist.component'
 import {ToastrService} from 'ngx-toastr'
@@ -47,6 +46,17 @@ export class ActiveinvestorlistComponent implements OnInit {
   pageSize = 5;
   pageSizes = [5, 10, 15];
   config:any
+  options = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    headers: ['Full Name','Email', 'Phone', 'City'],
+    showTitle: false,
+    useBom: true,
+    removeNewLines: false,
+    keys: ['fullName','email', 'phone', 'city']
+
+  };
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) {
     config.backdrop = 'static';
     config.keyboard = false;

@@ -166,6 +166,33 @@ export const menu: CoreMenu[] = [
 
   
   {
+    id: 'payout',
+    title: 'Payout',
+    translate: 'MENU.PAYOUT.COLLAPSIBLE',
+    type: 'collapsible',
+    icon: 'user',
+    children: [
+      {
+        id: 'allpayoutlist',
+        title: 'All Payout List',
+        translate: 'MENU.PAYOUT.ALLPAYOUTLIST',
+        type: 'item',
+        icon: 'circle',
+        url: 'payout/allpayoutlist'
+      },
+      // {
+      //   id: 'referrallist',
+      //   title: 'Referral List',
+      //   translate: 'MENU.REFERRAL.REFERRALLIST',
+      //   type: 'item',
+      //   icon: 'circle',
+      //   url: 'referral/referrallist'
+      // }
+    ]
+  },
+
+  
+  {
     id: 'support',
     title: 'Support',
     translate: 'MENU.SUPPORT.COLLAPSIBLE',

@@ -34,7 +34,7 @@ export class PortfoliolistComponent implements OnInit {
   // pagination
   page = 1;
   count = 0;
-  pageSize = 5;
+  pageSize = 10;
   pageSizes = [5, 10, 15];
   config:any
   options = {
@@ -102,14 +102,18 @@ export class PortfoliolistComponent implements OnInit {
         PortfolioRawData.forEach((PortfolioDocuments) => { 
           let portfolios = PortfolioDocuments.data();
           var date =  this.datePipe.transform(portfolios["timestamp"].toDate(),"medium");
-          console.log(date)
+         
           this.afs.collection('INVESTORS',  ref => ref.where('uid', '==', portfolios["uid"])).doc(portfolios["uid"]).valueChanges().subscribe(InvestorDetails=>{
                 this.investors = InvestorDetails // get  Investor details by portfolios uid 
                 portfolios["fullName"] =  this.investors.fullName
                 portfolios["phone"] =  this.investors.phone
                 portfolios["timestamp"] = date
+                if(this.investors.phone){
+                  this.portfoliosData.push(portfolios);
+                }
+               
             });
-          this.portfoliosData.push(portfolios);
+        
           });
           
         this.PortfolioQueryData.unsubscribe();

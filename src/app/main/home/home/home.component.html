@@ -6,16 +6,64 @@
       <!-- Basic Alerts start -->
       <section id="home-page">
         <div class="row">
-            <div class="col-xl-4 col-md-6 col-12">
+            <div class="col-3">
                 <div class="card card-congratulation-medal">
                     <div class="card-body">
-                        <h5>Congratulations 🎉 John!</h5>
-                        <p class="card-text font-small-3">You have won gold medal</p>
+                        <h3>Total Investors</h3>
+                      
                         <h3 class="mb-75 mt-2 pt-50">
-                            <a href="javascript:void(0);">$48.9k</a>
+                            <a href="javascript:void(0);">{{investorsCount}}</a>
                         </h3>
-                        <button type="button" rippleeffect="" class="btn btn-primary waves-effect waves-float waves-light">View Sales</button>
-                        <img src="assets/images/illustration/badge.svg" alt="Medal Pic" class="congratulation-medal">
+                        <a  routerLink="/investor/investorlist" class="btn btn-primary waves-effect waves-float waves-light">View Investor</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card card-congratulation-medal">
+                    <div class="card-body">
+                        <h3>Total Active Investors</h3>
+                      
+                        <h3 class="mb-75 mt-2 pt-50">
+                            <a href="javascript:void(0);">{{activeinvestorsCount}}</a>
+                        </h3>
+                        <a  routerLink="/investor/acitveinvestorlist" class="btn btn-primary waves-effect waves-float waves-light">View Active Investor</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card card-congratulation-medal">
+                    <div class="card-body">
+                        <h3>Total Portfolios</h3>
+                      
+                        <h3 class="mb-75 mt-2 pt-50">
+                            <a href="javascript:void(0);">{{portfoliosCount}}</a>
+                        </h3>
+                        <a  routerLink="/portfolio/portfoliolist" class="btn btn-primary waves-effect waves-float waves-light">View Portfolios</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="card card-congratulation-medal">
+                    <div class="card-body">
+                        <h3>Total Transaction</h3>
+                      
+                        <h3 class="mb-75 mt-2 pt-50">
+                            <a href="javascript:void(0);">{{transactionsCount}}</a>
+                        </h3>
+                        <a  routerLink="/transaction/transactionlist" class="btn btn-primary waves-effect waves-float waves-light">View Transaction</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <div class="card card-congratulation-medal">
+                    <div class="card-body">
+                        <h3>Total Investment</h3>
+                      
+                        <h3 class="mb-75 mt-2 pt-50">
+                            <a href="javascript:void(0);">{{TotalInvestment}}</a>
+                        </h3>
+                        <a  routerLink="/transaction/transactionlist" class="btn btn-primary waves-effect waves-float waves-light">View Portfolios</a>
                     </div>
                 </div>
             </div>

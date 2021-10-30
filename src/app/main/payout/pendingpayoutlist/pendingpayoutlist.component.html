@@ -25,9 +25,11 @@
                                 <th>Phone</th>
                                 <th>Amount</th>
                                 <th>Reason</th>
-                           
                                 <th>Payout Request Type</th>
                                 <th>Date / Time</th>
+                                <th>Status</th>
+                                <th>Action</th>
+
                               </tr>
                             </thead>
                             <tbody>
@@ -47,6 +49,25 @@
                                 </td>
 
                                 <td>{{offer.timestamp}}</td>
+                                <td> 
+                                    <span  *ngIf="offer.status === 1">
+                                        <span class="pending">Pending</span>
+                                    </span>
+                                    <span  *ngIf="offer.status === 2">
+                                        <span class="approve">Approved</span>
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span *ngIf="offer.status === 2" >
+                                        <button disabled class="btn btn-icon waves-effect waves-float waves-light  btn-success ">Approved</button>
+                                    </span>
+                                    <span *ngIf="offer.status === 1" >
+                                        <button (click)="Delete(investor.uid)" class="btn btn-icon btn-warning waves-effect waves-float waves-light pay">Pay</button>
+                                   
+                                        <button (click)="Delete(investor.uid)" class="btn btn-icon btn-danger waves-effect waves-float waves-light reject">Reject</button>
+                                    </span>
+                                </td>
                               </tr>
                             </tbody>
                           </table>

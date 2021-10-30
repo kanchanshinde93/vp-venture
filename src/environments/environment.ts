@@ -7,17 +7,17 @@ export const environment = {
   hmr: false,
   apiUrl: 'http://localhost:4000',
     firebase : {
-      apiKey: "AIzaSyBeuAkPJAoMch6VshgdMGw2zmAs4LEMud4",
-      projectId: "fablo-money",
-      appId: "1:701685794812:android:c8f56e4ef04fd5b8301479",
-      // apiKey: "AIzaSyDR7vzDVIehUyWeTaoFNk1Dnywq3Uz6hcA",
-      // authDomain: "friebasewebapp.firebaseapp.com",
-      // databaseURL: "https://friebasewebapp-default-rtdb.firebaseio.com",
-      // projectId: "friebasewebapp",
-      // storageBucket: "friebasewebapp.appspot.com",
-      // messagingSenderId: "658432913210",
-      // appId: "1:658432913210:web:fec8dcb9e72c6ca1db6a03",
-      // measurementId: "G-5XH0GQYWH9"
+      // apiKey: "AIzaSyBeuAkPJAoMch6VshgdMGw2zmAs4LEMud4",
+      // projectId: "fablo-money",
+      // appId: "1:701685794812:android:c8f56e4ef04fd5b8301479",
+      apiKey: "AIzaSyDR7vzDVIehUyWeTaoFNk1Dnywq3Uz6hcA",
+      authDomain: "friebasewebapp.firebaseapp.com",
+      databaseURL: "https://friebasewebapp-default-rtdb.firebaseio.com",
+      projectId: "friebasewebapp",
+      storageBucket: "friebasewebapp.appspot.com",
+      messagingSenderId: "658432913210",
+      appId: "1:658432913210:web:fec8dcb9e72c6ca1db6a03",
+      measurementId: "G-5XH0GQYWH9"
     },
  
 };

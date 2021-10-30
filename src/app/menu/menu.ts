@@ -42,7 +42,7 @@ export const menu: CoreMenu[] = [
     title: 'Portfolio',
     translate: 'MENU.PORTFOLIO.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'dollar-sign',
     children: [
       {
         id: 'portfoliolist',
@@ -60,7 +60,7 @@ export const menu: CoreMenu[] = [
     title: 'Transaction',
     translate: 'MENU.TRANSACTION.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'check-circle',
     children: [
       {
         id: 'transactionlist',
@@ -79,7 +79,7 @@ export const menu: CoreMenu[] = [
     title: 'Visitor',
     translate: 'MENU.VISITOR.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'align-justify',
     children: [
       {
         id: 'visitorlist',
@@ -97,7 +97,7 @@ export const menu: CoreMenu[] = [
     title: 'Offer',
     translate: 'MENU.OFFER.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'gift',
     children: [
       {
         id: 'createoffer',
@@ -118,13 +118,12 @@ export const menu: CoreMenu[] = [
       }
     ]
   },
-
   {
     id: 'notice',
     title: 'Notice',
     translate: 'MENU.NOTICE.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'clipboard',
     children: [
       {
         id: 'noticelist',
@@ -136,14 +135,13 @@ export const menu: CoreMenu[] = [
       }
     ]
   },
-
   
   {
     id: 'referral',
     title: 'Referral',
     translate: 'MENU.REFERRAL.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'share-2',
     children: [
       {
         id: 'createreferral',
@@ -170,7 +168,7 @@ export const menu: CoreMenu[] = [
     title: 'Payout',
     translate: 'MENU.PAYOUT.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'file-plus',
     children: [
       {
         id: 'allpayoutlist',
@@ -180,14 +178,14 @@ export const menu: CoreMenu[] = [
         icon: 'circle',
         url: 'payout/allpayoutlist'
       },
-      // {
-      //   id: 'referrallist',
-      //   title: 'Referral List',
-      //   translate: 'MENU.REFERRAL.REFERRALLIST',
-      //   type: 'item',
-      //   icon: 'circle',
-      //   url: 'referral/referrallist'
-      // }
+      {
+        id: 'pendingpayoutlist',
+        title: 'Pending Payout List',
+        translate: 'MENU.PAYOUT.PENDINGPAYOUTLIST',
+        type: 'item',
+        icon: 'circle',
+        url: 'payout/pendingpayoutlist'
+      }
     ]
   },
 
@@ -197,7 +195,7 @@ export const menu: CoreMenu[] = [
     title: 'Support',
     translate: 'MENU.SUPPORT.COLLAPSIBLE',
     type: 'collapsible',
-    icon: 'user',
+    icon: 'message-square',
     children: [
       {
         id: 'supportlist',

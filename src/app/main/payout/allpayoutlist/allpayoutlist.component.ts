@@ -26,18 +26,18 @@ export class AllpayoutlistComponent implements OnInit {
   // pagination
   page = 1;
   count = 0;
-  pageSize = 5;
+  pageSize = 10;
   pageSizes = [5, 10, 15];
   config:any
   options = {
     fieldSeparator: ',',
     quoteStrings: '"',
     decimalseparator: '.',
-    headers: ['Full Name','Phone','Amount','Locking', 'Profit', 'Rate', 'Date Time'],
+    headers: ['Full Name','Phone','Amount','Reason', 'Payout Request Type','Date Time'],
     showTitle: false,
     useBom: true,
     removeNewLines: false,
-    keys: ['fullName','phone','amount','locking', 'profit', 'rate', 'timestamp']
+    keys: ['fullName','phone','amount','reason', 'type',  'timestamp']
   
   };
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public datePipe: DatePipe) { 
@@ -75,28 +75,27 @@ export class AllpayoutlistComponent implements OnInit {
    this.getAllPayoutsList()
 
   }
-   // pagination section
-   handlePageChange(event: number): void { // function for angular pagination handle page change event
-    this.page = event;
-    this.ngOnInit();// call on load function
-  }
-  handlePageSizeChange(event: any): void { // function for angular pagination  handle page size on change event
-    this.pageSize = event.target.value;
-    this.page = 1;
-    this.ngOnInit();// call on load function
-  }
 
+    // pagination section
+    handlePageChange(event: number): void { // function for angular pagination handle page change event
+      this.page = event;
+      this.ngOnInit();// call on load function
+    }
+    handlePageSizeChange(event: any): void { // function for angular pagination  handle page size on change event
+      this.pageSize = event.target.value;
+      this.page = 1;
+      this.ngOnInit();// call on load function
+    }
 
   getAllPayoutsList(){
-   
     this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.offersData = data;
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
             this.investors = data;
-            console.log(value)
+            // console.log(value)
             var date =  this.datePipe.transform(value.timestamp.toDate(),"medium");
-            console.log(date)
+            // console.log(date)
             this.fullName = this.investors.fullName
             this.phone = this.investors.phone
            this.offers.push({
@@ -111,9 +110,8 @@ export class AllpayoutlistComponent implements OnInit {
         });
       });
      
-      console.log(this.offers,"investor")
+      console.log(this.offers,"withdraw")
     });
-  
   }
   
 }

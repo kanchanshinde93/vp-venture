@@ -10,6 +10,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { Angular2CsvModule } from 'angular2-csv';
+import { PendingpayoutlistComponent } from './pendingpayoutlist/pendingpayoutlist.component';
 
 const routes = [
   {
@@ -18,11 +19,18 @@ const routes = [
     data: { animation: 'allpayoutlist' }
   },
 
+  {
+    path: 'pendingpayoutlist',
+    component: PendingpayoutlistComponent,
+    data: { animation: 'pendingpayoutlist' }
+  },
+
 ];
 
 @NgModule({
   declarations: [
-    AllpayoutlistComponent
+    AllpayoutlistComponent,
+    PendingpayoutlistComponent
   ],
   imports: [
     CommonModule,

@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 import {ToastrModule} from 'ngx-toastr';
 import { OfferlistComponent } from './offerlist/offerlist.component'
 import { Angular2CsvModule } from 'angular2-csv';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes = [
   {
@@ -42,6 +43,7 @@ const routes = [
     OfferlistComponent
   ],
   imports: [
+    HttpClientModule,
     RouterModule.forChild(routes),
     ContentHeaderModule,
     TranslateModule,

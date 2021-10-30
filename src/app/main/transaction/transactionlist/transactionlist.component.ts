@@ -35,7 +35,7 @@ export class TransactionlistComponent implements OnInit {
   // pagination
   page = 1;
   count = 0;
-  pageSize = 5;
+  pageSize = 10;
   pageSizes = [5, 10, 15];
   config:any
   options = {
@@ -106,8 +106,12 @@ export class TransactionlistComponent implements OnInit {
               transactions["fullName"] =  this.investors.fullName
               transactions["phone"] =  this.investors.phone
               transactions["timestamp"] = date
+              if(this.investors.phone){
+                this.transactionData.push(transactions);
+                // console.log(transactions)
+              }
           });
-        this.transactionData.push(transactions);
+     
         });
         
       this.transactionQueryData.unsubscribe();

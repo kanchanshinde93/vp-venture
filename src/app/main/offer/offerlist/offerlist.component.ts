@@ -27,7 +27,7 @@ export class OfferlistComponent implements OnInit {
   // pagination
   page = 1;
   count = 0;
-  pageSize = 5;
+  pageSize = 10;
   pageSizes = [5, 10, 15];
   config:any
   options = {

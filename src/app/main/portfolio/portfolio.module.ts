@@ -18,6 +18,8 @@ const routes = [
     data: { animation: 'portfoliolist' }
   },
 
+
+
 ];
 @NgModule({
   declarations: [

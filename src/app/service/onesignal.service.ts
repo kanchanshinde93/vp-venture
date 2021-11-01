@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from "rxjs";
 import { retry, catchError,map } from 'rxjs/operators';
+import * as sha512 from 'js-sha512';
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,8 @@ export class OnesignalService {
       // window.alert(errorMessage);
       return throwError(errorMessage);
     }
+
+
 
     // onesignal(){
     //   const data = {
@@ -59,5 +63,38 @@ export class OnesignalService {
 
     // req.write(JSON.stringify(data));
     // req.end();
+    // }
+
+    // payout(email, phone, accountNumber, ifsc, name_on_account,payoutamount){
+    //    var request = require('request'); 
+    //    var key = "062B081AC9";
+    //    var salt = "174F4A6761"; 
+    //    var accountNumber = accountNumber; 
+    //    var ifsc =  ifsc; 
+    //     var upi_handle = "";
+    //      // var unique_request_number = randomstring.generate(7); 
+    //      var unique_request_number = (Math.random() + 1).toString(36).substring(5);
+    //        console.log(unique_request_number);
+    //        var amount = parseFloat(payoutamount); 
+    //        var auth = key + "|" + accountNumber + "|" + ifsc + "|" + upi_handle + "|" + unique_request_number + "|" + amount + "|" + salt;
+    //           var authhashkey = sha512.sha512(auth);
+    //            var options = {
+    //              'method': 'POST', 'url': 'https://wire.easebuzz.in/api/v1/quick_transfers/initiate/',
+    //              'headers': {
+    //                'authorization': authhashkey, 'Content-Type':
+    //                  'application/json'
+    //              }, 
+    //              body: JSON.stringify({
+    //                "key": key, "beneficiary_type": "bank_account", "beneficiary_name":
+    //                name_on_account, "account_number": accountNumber, "ifsc": ifsc, "unique_request_number": unique_request_number,
+    //                "payment_mode": "IMPS", "amount": amount, "email": email, "phone": phone, "narration": "Fablo Payout"
+    //              })
+    //            }; request(options,  function (error, response) {
+    //              console.log(response)
+   
+    //              if (error) {
+    //               console.log(error)
+    //              } 
+    //            });
     // }
 }

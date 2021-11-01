@@ -25,6 +25,14 @@ export class HomeComponent implements OnInit {
   transactions:any
   transactionsCount:any
   TotalInvestment:any
+  withdraw:any
+  withdrawCount:any
+  completewithdraw:any
+  completewithdrawCount:any
+  pendingwithdraw:any
+  pendingwithdrawCount:any
+  referrals:any
+referralsCount:any
   constructor(public afs: AngularFirestore,public datepipe: DatePipe,
     private _route: ActivatedRoute,
     private _router: Router, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase, private activerouter: ActivatedRoute) { 
@@ -65,6 +73,11 @@ export class HomeComponent implements OnInit {
       this.getAllActiveInvestorsList()
       this.getAllPortfoliosList()
       this.getAllTransactionList()
+      this.getAllPayoutList()
+      this.getReferralsList()
+      this.getCompletePayoutList()
+      this.getPendingPayoutList()
+
   }
 
 
@@ -103,6 +116,37 @@ export class HomeComponent implements OnInit {
         this.transactions = data;
         // console.log(data)
         this.transactionsCount = data.length
+      });
+    }
+
+    getAllPayoutList(){ 
+      this.afs.collectionGroup('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
+        this.withdraw = data;
+        // console.log(data)
+        this.withdrawCount = data.length
+      });
+    }
+
+    getCompletePayoutList(){ 
+      this.afs.collectionGroup('WITHDRAW', ref => ref.where('status', '==', 2)).valueChanges({ idField: 'id' }).subscribe((data)=>{
+        this.completewithdraw = data;
+        // console.log(data)
+        this.completewithdrawCount = data.length
+      });
+    }
+
+    getPendingPayoutList(){ 
+      this.afs.collectionGroup('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
+        this.pendingwithdraw = data;
+        // console.log(data)
+        this.pendingwithdrawCount = data.length
+      });
+    }
+    getReferralsList(){ 
+      this.afs.collectionGroup('Data').valueChanges({ idField: 'id' }).subscribe((data)=>{
+        this.referrals = data;
+        // console.log(data , "REFERRAL")
+        this.referralsCount = data.length
       });
     }
 }

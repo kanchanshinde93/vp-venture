@@ -11,6 +11,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { Angular2CsvModule } from 'angular2-csv';
 import { PendingpayoutlistComponent } from './pendingpayoutlist/pendingpayoutlist.component';
+import { CompletepayoutlistComponent } from './completepayoutlist/completepayoutlist.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes = [
   {
@@ -24,13 +26,20 @@ const routes = [
     component: PendingpayoutlistComponent,
     data: { animation: 'pendingpayoutlist' }
   },
+  
+  {
+    path: 'completepayoutlist',
+    component: CompletepayoutlistComponent,
+    data: { animation: 'completepayoutlist' }
+  },
 
 ];
 
 @NgModule({
   declarations: [
     AllpayoutlistComponent,
-    PendingpayoutlistComponent
+    PendingpayoutlistComponent,
+    CompletepayoutlistComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +50,8 @@ const routes = [
     NgxDatatableModule,
     NgxPaginationModule,
     NgbModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    HttpClientModule
   ],
   exports: [AllpayoutlistComponent]
 })

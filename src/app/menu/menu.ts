@@ -185,7 +185,15 @@ export const menu: CoreMenu[] = [
         type: 'item',
         icon: 'circle',
         url: 'payout/pendingpayoutlist'
-      }
+      },
+      {
+        id: 'completepayoutlist',
+        title: 'Complete Payout List',
+        translate: 'MENU.PAYOUT.COMPLETEPAYOUTLIST',
+        type: 'item',
+        icon: 'circle',
+        url: 'payout/completepayoutlist'
+      },
     ]
   },
 

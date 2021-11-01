@@ -8,7 +8,8 @@ import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { DatePipe } from '@angular/common';
-
+import * as sha512 from 'js-sha512';
+import { OnesignalService} from '../../../service/onesignal.service'
 @Component({
   selector: 'app-pendingpayoutlist',
   templateUrl: './pendingpayoutlist.component.html',
@@ -23,6 +24,14 @@ export class PendingpayoutlistComponent implements OnInit {
   investors: any
   fullName: any
   phone: any
+  banks:any
+  amount:any
+  email:any
+city:any
+accountNumber:any
+ifsc:any
+name_on_account:any
+result:any
   // pagination
   page = 1;
   count = 0;
@@ -40,7 +49,7 @@ export class PendingpayoutlistComponent implements OnInit {
     keys: ['fullName', 'phone', 'amount', 'reason', 'type', 'timestamp']
 
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe) {
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe, public OneService :OnesignalService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -72,7 +81,7 @@ export class PendingpayoutlistComponent implements OnInit {
         ]
       }
     };
-    this.getAllPayoutsList()
+    this.getAllPendingPayoutsList()
 
   }
 
@@ -87,8 +96,8 @@ export class PendingpayoutlistComponent implements OnInit {
     this.ngOnInit();// call on load function
   }
 
-  getAllPayoutsList() {
-    this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data) => {
+  getAllPendingPayoutsList() {
+    this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data) => {
       this.offersData = data;
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data) => { // basic  deatils 
@@ -106,44 +115,71 @@ export class PendingpayoutlistComponent implements OnInit {
             status: value.status,
             timestamp: date,
             type: value.type,
+            uid:value.uid
           })
         });
       });
-      console.log(this.offers, "withdraw")
+      // console.log(this.offers, "withdraw")
     });
   }
+  
 
-  // payout() {
-  //   var request = require('request'); 
-  //   var key = "062B081AC9";
-  //   var salt = "174F4A6761"; 
-  //   var accountNumber = req.body.accountNumber; 
-  //   var ifsc = req.body.ifsc;
-  //    var upi_handle = "";
-  //     var
-  //       unique_request_number = randomstring.generate(7); 
-  //       var amount = parseFloat(req.body.amount); 
-  //       var auth = key + "|" +
-  //         accountNumber + "|" + ifsc + "|" + upi_handle + "|" + unique_request_number + "|" + amount + "|" + salt;
-  //          var authhashkey = sha512.sha512(auth);
-  //           var options = {
-  //             'method': 'POST', 'url': 'https://wire.easebuzz.in/api/v1/quick_transfers/initiate/',
-  //             'headers': {
-  //               'authorization': authhashkey, 'Content-Type':
-  //                 'application/json'
-  //             }, 
-  //             body: JSON.stringify({
-  //               "key": key, "beneficiary_type": "bank_account", "beneficiary_name":
-  //                 req.body.acHolderName, "account_number": accountNumber, "ifsc": ifsc, "unique_request_number": unique_request_number,
-  //               "payment_mode": "IMPS", "amount": amount, "email": req.body.email, "phone": req.body.phone, "narration": "Fablo Payout"
-  //             })
-  //           }; request(options,  function (error, response) {
-  //             console.log(response)
+  payout(uid, amount) {
+    console.log(uid)
+    this.amount = amount
+    this.afs.collection('INVESTORS').doc(uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
+      this.investors = data;
+      this.fullName = this.investors.fullName
+      this.email = this.investors.email
+      this.phone = this.investors.phone
+      this.city = this.investors.city
 
-  //             if (error) {
-  //              console.log(error)
-                
-  //             } 
-  //           });
-  // }
+      this.afs.collection('INVESTORS').doc(uid).collection('BANKS').valueChanges({ idField: 'id' }).subscribe((data)=>{ // bank details
+        this.banks = data;
+        console.log(this.banks[0])
+       this.accountNumber = this.banks[0].account_number; 
+       this.ifsc = this.banks[0].ifsc_code; 
+       this.name_on_account = this.banks[0].name_on_account
+      //  this.OneService.payout(this.email,this.phone,this.accountNumber, this.ifsc,this.name_on_account, this.amount).subscribe(resultData => { // call api 
+      //   this.result = resultData;
+       
+      // });
+  
+      // var request = require('request'); 
+      // var key = "062B081AC9";
+      // var salt = "174F4A6761"; 
+      // var accountNumber = this.accountNumber; 
+      // var ifsc =  this.ifsc; 
+      //  var upi_handle = "";
+      //   // var unique_request_number = randomstring.generate(7); 
+      //   var unique_request_number = (Math.random() + 1).toString(36).substring(5);
+      //     console.log(unique_request_number);
+      //     var amount = parseFloat(this.amount); 
+      //     var auth = key + "|" + accountNumber + "|" + ifsc + "|" + upi_handle + "|" + unique_request_number + "|" + amount + "|" + salt;
+      //        var authhashkey = sha512.sha512(auth);
+      //         var options = {
+      //           'method': 'POST', 'url': 'https://wire.easebuzz.in/api/v1/quick_transfers/initiate/',
+      //           'headers': {
+      //             'authorization': authhashkey, 'Content-Type':
+      //               'application/json'
+      //           }, 
+      //           body: JSON.stringify({
+      //             "key": key, "beneficiary_type": "bank_account", "beneficiary_name":
+      //             this.name_on_account, "account_number": accountNumber, "ifsc": ifsc, "unique_request_number": unique_request_number,
+      //             "payment_mode": "IMPS", "amount": amount, "email": this.email, "phone": this.phone, "narration": "Fablo Payout"
+      //           })
+      //         }; request(options,  function (error, response) {
+      //           console.log(response)
+  
+      //           if (error) {
+      //            console.log(error)
+                  
+      //           } 
+      //         });
+      });
+    });
+   
+    
+    
+  }
 }

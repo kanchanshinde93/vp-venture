@@ -47,7 +47,9 @@ export const locale = {
         COLLAPSIBLE: 'Payout',
         BADGE: '2',
         ALLPAYOUTLIST: 'AllPayoutList',
-        PENDINGPAYOUTLIST: 'PendingPayoutList'
+        PENDINGPAYOUTLIST: 'PendingPayoutList',
+        COMPLETEPAYOUTLIST: 'completepayoutlist'
+
       },
       SUPPORT: {
         COLLAPSIBLE: 'Support',

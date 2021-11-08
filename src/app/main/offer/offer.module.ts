@@ -14,7 +14,7 @@ import {ToastrModule} from 'ngx-toastr';
 import { OfferlistComponent } from './offerlist/offerlist.component'
 import { Angular2CsvModule } from 'angular2-csv';
 import { HttpClientModule } from '@angular/common/http';
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 const routes = [
   {
     path: 'createoffer',
@@ -54,7 +54,8 @@ const routes = [
     ReactiveFormsModule,
     FormsModule,
     ToastrModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     DatePipe,

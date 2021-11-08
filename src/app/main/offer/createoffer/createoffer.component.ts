@@ -8,7 +8,9 @@ import { AngularFireDatabase } from '@angular/fire/compat/database'
 import { DatePipe } from '@angular/common'
 import {ActivatedRoute} from "@angular/router"
 // import { OneSignalService } from 'onesignal-ngx';
-import {OnesignalService} from 'app/service/onesignal.service'
+// import {OnesignalService} from 'app/service/onesignal.service'
+import { OnesignalService} from '../../../service/onesignal.service'
+
 @Component({
   selector: 'app-createoffer',
   templateUrl: './createoffer.component.html',
@@ -21,7 +23,8 @@ export class CreateofferComponent implements OnInit {
   date:any
   rawData:any;
   uid:any
-  constructor(public afs: AngularFirestore,public datepipe: DatePipe,public oneSignal: OnesignalService, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase, private activerouter: ActivatedRoute) { 
+  result:any;
+  constructor(public afs: AngularFirestore,public datepipe: DatePipe,public OneService: OnesignalService, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase, private activerouter: ActivatedRoute) { 
   }
   ngOnInit(): void {
     // header content 
@@ -76,23 +79,16 @@ export class CreateofferComponent implements OnInit {
     }); 
     console.log(this.Offers)
     if(this.Offers){
-
-      // this.oneSignal.init({ appId: 'e1684313-6e71-43ad-9305-fc42074f5b97' }).then((signal) => {
-      //   console.log(signal)
-      // });
-
-     
-
-
-
-
-
+      this.OneService.onesignal().subscribe(resultData => { // call api 
+        this.result = resultData;
+          console.log(this.result)
+          });
       this.toastr.success('success', 'Offer Created Successfully', {
         timeOut: 100000,
       });
-      // setTimeout(()=>{      //<<<---using ()=> syntax
-      //    window.location.reload();
-      // }, 3000000);
+      setTimeout(()=>{      //<<<---using ()=> syntax
+         window.location.reload();
+      }, 30000);
 
      
     }

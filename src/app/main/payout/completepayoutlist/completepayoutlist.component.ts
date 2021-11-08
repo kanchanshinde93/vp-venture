@@ -32,6 +32,8 @@ accountNumber:any
 ifsc:any
 name_on_account:any
 result:any
+searchText:any
+
   // pagination
   page = 1;
   count = 0;
@@ -60,7 +62,7 @@ result:any
   ngOnInit(): void {
       // header content 
       this.contentHeader = {
-        headerTitle: 'All Payout List',
+        headerTitle: 'Complete Payout List',
         actionButton: true,
         breadcrumb: {
           type: '',
@@ -76,7 +78,7 @@ result:any
               link: '/'
             },
             {
-              name: 'All Payout  List',
+              name: 'Complete Payout  List',
               isLink: false
             }
           ]

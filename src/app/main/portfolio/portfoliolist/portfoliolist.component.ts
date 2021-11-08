@@ -27,6 +27,8 @@ export class PortfoliolistComponent implements OnInit {
   phone:any
   city:any
   doc_uid:any
+  searchText:any
+
   //portfolios
   portfolios:any = [];
   portfoliosData:any = [];
@@ -105,13 +107,15 @@ export class PortfoliolistComponent implements OnInit {
          
           this.afs.collection('INVESTORS',  ref => ref.where('uid', '==', portfolios["uid"])).doc(portfolios["uid"]).valueChanges().subscribe(InvestorDetails=>{
                 this.investors = InvestorDetails // get  Investor details by portfolios uid 
-                portfolios["fullName"] =  this.investors.fullName
-                portfolios["phone"] =  this.investors.phone
-                portfolios["timestamp"] = date
+               if(this.investors){
                 if(this.investors.phone){
+                  portfolios["fullName"] =  this.investors.fullName
+                  portfolios["phone"] =  this.investors.phone
+                  portfolios["timestamp"] = date
                   this.portfoliosData.push(portfolios);
                 }
-               
+               }
+             
             });
         
           });
@@ -121,4 +125,7 @@ export class PortfoliolistComponent implements OnInit {
       console.log(this.portfoliosData ,"potfolios")
     
     }
+
+
+
 }

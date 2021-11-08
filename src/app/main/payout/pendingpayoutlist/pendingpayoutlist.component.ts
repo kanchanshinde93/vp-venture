@@ -28,10 +28,14 @@ export class PendingpayoutlistComponent implements OnInit {
   amount:any
   email:any
 city:any
+searchText:any
+
 accountNumber:any
 ifsc:any
 name_on_account:any
 result:any
+profit:number
+resultbalance:any
   // pagination
   page = 1;
   count = 0;
@@ -59,7 +63,7 @@ result:any
   ngOnInit(): void {
     // header content 
     this.contentHeader = {
-      headerTitle: 'All Payout List',
+      headerTitle: 'Pending Payout List',
       actionButton: true,
       breadcrumb: {
         type: '',
@@ -75,14 +79,13 @@ result:any
             link: '/'
           },
           {
-            name: 'All Payout  List',
+            name: 'Pending Payout  List',
             isLink: false
           }
         ]
       }
     };
     this.getAllPendingPayoutsList()
-
   }
 
   // pagination section
@@ -99,12 +102,11 @@ result:any
   getAllPendingPayoutsList() {
     this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data) => {
       this.offersData = data;
+      console.log(data)
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data) => { // basic  deatils 
           this.investors = data;
-          // console.log(value)
           var date = this.datePipe.transform(value.timestamp.toDate(), "medium");
-          // console.log(date)
           this.fullName = this.investors.fullName
           this.phone = this.investors.phone
           this.offers.push({
@@ -119,13 +121,10 @@ result:any
           })
         });
       });
-      // console.log(this.offers, "withdraw")
     });
   }
-  
 
-  payout(uid, amount) {
-    console.log(uid)
+  payout(uid, amount, id) {
     this.amount = amount
     this.afs.collection('INVESTORS').doc(uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
       this.investors = data;
@@ -133,49 +132,27 @@ result:any
       this.email = this.investors.email
       this.phone = this.investors.phone
       this.city = this.investors.city
-
       this.afs.collection('INVESTORS').doc(uid).collection('BANKS').valueChanges({ idField: 'id' }).subscribe((data)=>{ // bank details
         this.banks = data;
-        console.log(this.banks[0])
        this.accountNumber = this.banks[0].account_number; 
        this.ifsc = this.banks[0].ifsc_code; 
        this.name_on_account = this.banks[0].name_on_account
-      //  this.OneService.payout(this.email,this.phone,this.accountNumber, this.ifsc,this.name_on_account, this.amount).subscribe(resultData => { // call api 
-      //   this.result = resultData;
-       
-      // });
-  
-      // var request = require('request'); 
-      // var key = "062B081AC9";
-      // var salt = "174F4A6761"; 
-      // var accountNumber = this.accountNumber; 
-      // var ifsc =  this.ifsc; 
-      //  var upi_handle = "";
-      //   // var unique_request_number = randomstring.generate(7); 
-      //   var unique_request_number = (Math.random() + 1).toString(36).substring(5);
-      //     console.log(unique_request_number);
-      //     var amount = parseFloat(this.amount); 
-      //     var auth = key + "|" + accountNumber + "|" + ifsc + "|" + upi_handle + "|" + unique_request_number + "|" + amount + "|" + salt;
-      //        var authhashkey = sha512.sha512(auth);
-      //         var options = {
-      //           'method': 'POST', 'url': 'https://wire.easebuzz.in/api/v1/quick_transfers/initiate/',
-      //           'headers': {
-      //             'authorization': authhashkey, 'Content-Type':
-      //               'application/json'
-      //           }, 
-      //           body: JSON.stringify({
-      //             "key": key, "beneficiary_type": "bank_account", "beneficiary_name":
-      //             this.name_on_account, "account_number": accountNumber, "ifsc": ifsc, "unique_request_number": unique_request_number,
-      //             "payment_mode": "IMPS", "amount": amount, "email": this.email, "phone": this.phone, "narration": "Fablo Payout"
-      //           })
-      //         }; request(options,  function (error, response) {
-      //           console.log(response)
-  
-      //           if (error) {
-      //            console.log(error)
-                  
-      //           } 
-      //         });
+       this.OneService.payout(this.email,this.phone,this.accountNumber, this.ifsc,this.name_on_account, this.amount).subscribe(resultData => { // call api 
+        this.result = resultData;
+          console.log(this.result)
+          this.afs.collection('WITHDRAW').doc(id).set({ 
+            status:2,
+          });
+          this.afs.collection('BALANCE').doc(uid).valueChanges().subscribe((data)=>{
+            console.log(data)
+            this.resultbalance = data
+            this.profit = this.resultbalance.profit
+            var newProfit = this.profit - amount;
+            this.afs.collection('BALANCE').doc(uid).set({ 
+              profit:newProfit,
+            });
+           })
+          });
       });
     });
    

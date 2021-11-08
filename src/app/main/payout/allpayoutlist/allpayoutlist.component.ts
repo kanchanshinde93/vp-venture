@@ -23,6 +23,8 @@ export class AllpayoutlistComponent implements OnInit {
   investors:any
   fullName:any
   phone:any
+searchText:any
+
   // pagination
   page = 1;
   count = 0;

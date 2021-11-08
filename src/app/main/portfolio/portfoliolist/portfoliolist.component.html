@@ -5,6 +5,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header"><h4 class="card-title">Portfolio List</h4>
+              <span class="search-table">
+                <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
+              </span>
               <span class="csv-button">
                 <angular2csv [data]="portfoliosData" class="csv" filename="portfolio.csv" [options]="options"></angular2csv>
               </span>
@@ -32,7 +35,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let portfolio of portfoliosData | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;" >
+                              <tr *ngFor="let portfolio of portfoliosData | filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;" >
                              
                   
                                  <th scope="row">{{i + 1}}</th>

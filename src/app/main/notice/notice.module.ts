@@ -20,6 +20,11 @@ const routes = [
     data: { animation: 'createnotice' }
   },
   {
+    path: 'createnotice/:id',
+    component: CreatenoticeComponent,
+    data: { animation: 'createnotice' }
+  },
+  {
     path: 'noticelist',
     component: NoticelistComponent,
     data: { animation: 'noticelist' }

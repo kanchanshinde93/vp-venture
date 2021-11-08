@@ -6,7 +6,7 @@ import { Validators, FormGroup, FormControl } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr'
 import { AngularFireDatabase } from '@angular/fire/compat/database'
 import { Router } from '@angular/router';
-
+import {ActivatedRoute} from "@angular/router"
 @Component({
   selector: 'app-createnotice',
   templateUrl: './createnotice.component.html',
@@ -16,9 +16,11 @@ export class CreatenoticeComponent implements OnInit {
   public contentHeader: object
   form: FormGroup;
   Offers:any
+  notices:any
   date:any
   rawData:any;
-  constructor(public afs: AngularFirestore,private router: Router, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase) { 
+  noticeId:any
+  constructor(public afs: AngularFirestore, private activerouter: ActivatedRoute,private router: Router, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase) { 
   }
   ngOnInit(): void {
     // header content 
@@ -45,17 +47,28 @@ export class CreatenoticeComponent implements OnInit {
         ]
       }
     };
+    this.noticeId  = this.activerouter.snapshot.paramMap.get('id'); 
+    if(this.noticeId){
+      this.afs.collection('NOTICE').doc(this.noticeId).valueChanges().subscribe((data)=>{
+        this.notices = data;
+        this.form = new FormGroup({ // Login Form Input Field
+          title: new FormControl(this.notices.title, [Validators.required]),
+        });
+      });
+    }
     this.form = new FormGroup({ // Login Form Input Field
       title: new FormControl('', [Validators.required]),
     });
   }
   onSubmit() {
-    const docid  = this.afs.createId();
-    this.afs.collection('NOTICE').doc(docid).set({ 
-      noticeId :docid,
+    if(!this.noticeId){
+      this.noticeId  = this.afs.createId();
+    }
+    this.afs.collection('NOTICE').doc(this.noticeId).set({ 
+      noticeId :this.noticeId,
       title: this.form.value["title"],
     });
-    this.Offers =  this.afs.collection('NOTICE').doc(docid).snapshotChanges().subscribe((data)=>{ // bank details
+    this.Offers =  this.afs.collection('NOTICE').doc(this.noticeId).snapshotChanges().subscribe((data)=>{ // bank details
       this.Offers = data;
     }); 
     console.log(this.Offers)

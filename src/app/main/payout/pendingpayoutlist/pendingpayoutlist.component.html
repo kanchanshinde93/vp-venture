@@ -4,7 +4,10 @@
       <div class="row" id="table-striped">
         <div class="col-12">
           <div class="card">
-            <div class="card-header"><h4 class="card-title">All Payouts List</h4>
+            <div class="card-header"><h4 class="card-title">Pending Payouts List</h4>
+              <span class="search-table">
+                <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
+              </span>
               <span class="csv-button">
                 <angular2csv [data]="offers" class="csv" filename="portfolio.csv" [options]="options"></angular2csv>
               </span>
@@ -33,7 +36,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let offer of offers | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <tr *ngFor="let offer of offers | filter:searchText | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{offer.fullName}}</td>
                                 <td>{{offer.phone}}</td>
@@ -63,7 +66,7 @@
                                         <button disabled class="btn btn-icon waves-effect waves-float waves-light  btn-success ">Approved</button>
                                     </span>
                                     <span *ngIf="offer.status === 1" >
-                                        <button (click)="payout(offer.uid,offer.amount )" class="btn btn-icon btn-warning waves-effect waves-float waves-light pay">Pay</button>
+                                        <button (click)="payout(offer.uid,offer.amount, offer.id )" class="btn btn-icon btn-warning waves-effect waves-float waves-light pay">Pay</button>
                                    
                                         <button (click)="Delete(investor.uid)" class="btn btn-icon btn-danger waves-effect waves-float waves-light reject">Reject</button>
                                     </span>

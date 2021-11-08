@@ -10,6 +10,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { InvestorportfolioComponent } from './investorportfolio/investorportfolio.component';
 import { InvestortransactionlistComponent } from './investortransactionlist/investortransactionlist.component';
 import { Angular2CsvModule } from 'angular2-csv';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { DatePipe } from '@angular/common';
 import { ActiveinvestorlistComponent } from './activeinvestorlist/activeinvestorlist.component';
@@ -42,7 +43,8 @@ const routes = [
     NgxDatatableModule,
     NgxPaginationModule,
     NgbModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    Ng2SearchPipeModule
   ],
   providers: [
     DatePipe,

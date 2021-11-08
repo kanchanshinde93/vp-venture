@@ -13,7 +13,7 @@ import { Angular2CsvModule } from 'angular2-csv';
 import { PendingpayoutlistComponent } from './pendingpayoutlist/pendingpayoutlist.component';
 import { CompletepayoutlistComponent } from './completepayoutlist/completepayoutlist.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import {Ng2SearchPipeModule} from 'ng2-search-filter'
 const routes = [
   {
     path: 'allpayoutlist',
@@ -51,7 +51,8 @@ const routes = [
     NgxPaginationModule,
     NgbModule,
     Angular2CsvModule,
-    HttpClientModule
+    HttpClientModule,
+    Ng2SearchPipeModule
   ],
   exports: [AllpayoutlistComponent]
 })

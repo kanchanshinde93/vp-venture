@@ -23,6 +23,8 @@ export class ActiveinvestorlistComponent implements OnInit {
   phone:any
   city:any
   doc_uid:any
+  searchText:any
+
   // kyc details
   aadhaar:any;
   address:any;

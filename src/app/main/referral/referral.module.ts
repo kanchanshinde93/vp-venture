@@ -14,7 +14,7 @@ import {ToastrModule} from 'ngx-toastr';
 import { ReferrallistComponent } from './referrallist/referrallist.component';
 import { ReferralcommissionComponent } from './referralcommission/referralcommission.component';
 import { Angular2CsvModule } from 'angular2-csv';
-
+import {Ng2SearchPipeModule} from 'ng2-search-filter'
 const routes = [
   {
     path: 'createreferral',
@@ -44,7 +44,8 @@ const routes = [
     ReactiveFormsModule,
     FormsModule,
     ToastrModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    Ng2SearchPipeModule
   ],
   exports: [ReferrallistComponent,ReferralcommissionComponent]
 

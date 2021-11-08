@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
+import { CreatenoticeComponent } from '../createnotice/createnotice.component';
 
 @Component({
   selector: 'app-noticelist',
@@ -18,6 +19,8 @@ export class NoticelistComponent implements OnInit {
   public contentHeader: object
   notices:any
   length:number
+  searchText:any
+  doc_uid:any
   // pagination
   page = 1;
   count = 0;
@@ -96,11 +99,18 @@ delete(doc_id){
   });
 }
 Update(doc_id){
-  this.afs.collection('NOTICE').doc(doc_id).set({
+  const modalRef =   this.modalService.open(CreatenoticeComponent, {
+    centered: true,
+    size: 'xl'
   });
-  this.toastr.success('success', 'Notice Deleted Successfully', {
-    timeOut: 3000,
-  });
+  modalRef.componentInstance.doc_uid = doc_id;
+  this.doc_uid = doc_id
+  // this.afs.collection('NOTICE').doc(doc_id).set({
+
+  // });
+  // this.toastr.success('success', 'Notice Deleted Successfully', {
+  //   timeOut: 3000,
+  // });
 }
 
 }

@@ -24,6 +24,8 @@ export class OfferlistComponent implements OnInit {
   uid:any;
   investors:any
   fullName:any
+  searchText:any
+
   // pagination
   page = 1;
   count = 0;

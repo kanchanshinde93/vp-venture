@@ -9,6 +9,9 @@
                 {{fullName}} Offfer List
               </h4>
               <h4 *ngIf="!fullName" class="card-title">Offfer List</h4> 
+              <span class="search-table">
+                <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
+              </span>
               <span class="csv-button">
                 <angular2csv [data]="offers" class="csv" filename="offers.csv" [options]="options"></angular2csv>
               </span>
@@ -33,7 +36,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let offer of offers | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <tr *ngFor="let offer of offers | filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                            
                                 <td>{{offer.amount}}</td>

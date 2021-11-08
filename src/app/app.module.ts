@@ -32,7 +32,8 @@ import {AngularFireStorageModule, AngularFireStorageReference, AngularFireUpload
 import { Angular2CsvModule } from 'angular2-csv';
 import 'firebase/storage';
 import { environment } from "../environments/environment";
-
+import { SearchPipe } from './search.pipe';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 const appRoutes: Routes = [
   {
     path: 'pages',
@@ -95,7 +96,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, SearchPipe],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -119,6 +120,7 @@ const appRoutes: Routes = [
     CoreCommonModule,
     CoreSidebarModule,
     CoreThemeCustomizerModule,
+    Ng2SearchPipeModule,
     // firebase
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,

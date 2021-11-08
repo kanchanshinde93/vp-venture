@@ -24,6 +24,7 @@ export class TransactionlistComponent implements OnInit {
   transaction:any;
   transactionData:any = [];
   transactionQueryData :any
+  searchText:any
 
   amount:any
   id:any

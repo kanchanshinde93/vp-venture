@@ -23,6 +23,10 @@ export class InvestorlistComponent implements OnInit {
   phone:any
   city:any
   doc_uid:any
+  filterString = "";
+  filtered;
+  searchText:any
+  aa:boolean=false;
   // kyc details
   aadhaar:any;
   address:any;
@@ -57,6 +61,7 @@ export class InvestorlistComponent implements OnInit {
     keys: ['fullName','email', 'phone', 'city']
 
   };
+  
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -88,6 +93,16 @@ export class InvestorlistComponent implements OnInit {
       }
     };
    this.getAllInvestorsList()
+  }
+  onFilterChange() {
+    this.filtered = this.investors.filter((investor) => this.isMatch(investor));
+  }
+  isMatch(item) {
+    if (item instanceof Object) {
+      return Object.keys(item).some((k) => this.isMatch(item[k]));
+    } else {
+      return item.toString().indexOf(this.filterString) > -1
+    }
   }
   //  view modal
   viewopen(modalXL, uid ) {
@@ -171,5 +186,8 @@ export class InvestorlistComponent implements OnInit {
       timeOut: 3000,
     });
   }
-  
+  setIndex(ii){
+    this.aa=ii;
+    console.log
+  }
 }

@@ -5,6 +5,9 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header"><h4 class="card-title">Active Investor List</h4>
+              <span class="search-table">
+                <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
+              </span>
               <span>
                 <angular2csv [data]="investors" class="csv" filename="investors.csv" [options]="options"></angular2csv>
               </span>
@@ -28,7 +31,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let investor of investors | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <tr *ngFor="let investor of investors | filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{investor.fullName}}</td>
                                 <td>{{investor.email}}</td>

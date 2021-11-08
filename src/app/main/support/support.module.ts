@@ -12,6 +12,7 @@ import {ToastrModule} from 'ngx-toastr';
 import { Angular2CsvModule } from 'angular2-csv';
 
 import { SupportComponent } from './support/support.component';
+import {Ng2SearchPipeModule} from 'ng2-search-filter'
 
 const routes = [
 
@@ -39,7 +40,8 @@ const routes = [
     ReactiveFormsModule,
     FormsModule,
     ToastrModule,
-    Angular2CsvModule
+    Angular2CsvModule,
+    Ng2SearchPipeModule
 
   ],
   exports: [SupportComponent]

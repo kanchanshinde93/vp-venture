@@ -5,9 +5,13 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header"><h4 class="card-title">Investor List</h4>
+            <span class="search-table">
+              <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
+            </span>
             <span>
               <angular2csv [data]="investors" class="csv" filename="investors.csv" [options]="options"></angular2csv>
-            </span></div>
+            </span>
+          </div>
             <section id="ngx-datatable-kitchen-sink">
                 <div class="row">
                 </div>
@@ -27,7 +31,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let investor of investors | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                            <tr *ngFor="let investor of investors | filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count }   let i=index;">
                               <th scope="row">{{i + 1}}</th>
                               <td>{{investor.fullName}}</td>
                               <td>{{investor.email}}</td>
@@ -36,8 +40,11 @@
                               <!-- <td><span class="badge badge-pill badge-light-warning mr-1">Pending</span></td> -->
                               <td class="overflow-hidden">
                                 <button class="btn btn-relief-info"  (click)="viewopen(view, investor.uid)"><svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></button>
-                                <span class="delete-button" >
+                                <span class="delete-button" *ngIf="investor.type === 0" >
                                   <button (click)="Delete(investor.uid)" class="btn btn-icon btn-danger waves-effect waves-float waves-light"><i data-feather="trash" class="mr-50"></i></button>
+                              </span>
+                                <span  class="delete-button" *ngIf="investor.type === 1">
+                                  <button  disabled  class="btn btn-icon btn-danger waves-effect waves-float waves-light"><i data-feather="trash" class="mr-50"></i></button>
                               </span>
                               </td>
                             </tr>

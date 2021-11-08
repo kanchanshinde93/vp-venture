@@ -26,6 +26,8 @@ export class ReferrallistComponent implements OnInit {
   ReferredByInvestorDetails:any
   ReferredByInvestor:any;
   ReferredQuerySubscription:any
+searchText:any
+
   // pagination
   page = 1;
   count = 0;

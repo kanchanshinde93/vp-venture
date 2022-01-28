@@ -42,6 +42,9 @@ searchText:any
     keys: ['fullName','phone','amount','reason', 'type',  'timestamp']
   
   };
+  bank_accountNumber: any;
+  ifsc_code: any;
+  bankDetails:any;
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public datePipe: DatePipe) { 
     config.backdrop = 'static';
     config.keyboard = false;
@@ -50,6 +53,7 @@ searchText:any
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   ngOnInit(): void {
+    this.offers=[];
       // header content 
       this.contentHeader = {
         headerTitle: 'All Payout List',
@@ -90,16 +94,19 @@ searchText:any
     }
 
   getAllPayoutsList(){
+    this.offers=[];
     this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.offersData = data;
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
             this.investors = data;
-            // console.log(value)
+            //console.log(value)
             var date =  this.datePipe.transform(value.timestamp.toDate(),"medium");
             // console.log(date)
             this.fullName = this.investors.fullName
             this.phone = this.investors.phone
+            
+            
            this.offers.push({
             fullName:this.fullName,
             phone:this.phone,
@@ -108,12 +115,15 @@ searchText:any
             timestamp: date,
             type:value.type,
         
-           }) 
+           })
+          
+            
         });
       });
      
       console.log(this.offers,"withdraw")
     });
   }
+
   
 }

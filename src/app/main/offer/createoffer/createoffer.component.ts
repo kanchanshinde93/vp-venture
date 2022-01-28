@@ -62,6 +62,7 @@ export class CreateofferComponent implements OnInit {
     });
   }
   onSubmit() {
+    console.log(this.form.value);
    this.date=this.form.value['date'];
     let myDateTemp = new Date(this.date);
     const docid  = this.afs.createId();
@@ -91,7 +92,7 @@ export class CreateofferComponent implements OnInit {
       }, 30000);
 
      
-    }
+    } 
   }
   // GetAllDetailsofStorebyId(){ // get All Details of Store By Store Id
   //   this.oneSignal.onesignal()

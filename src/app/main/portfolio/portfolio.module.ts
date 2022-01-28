@@ -11,6 +11,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { Angular2CsvModule } from 'angular2-csv';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { SortByPipe } from '../../../@core/pipes/sort-by.pipe';
+
 const routes = [
   {
     path: 'portfoliolist',
@@ -23,7 +25,7 @@ const routes = [
 ];
 @NgModule({
   declarations: [
-    PortfoliolistComponent
+    PortfoliolistComponent,SortByPipe
   ],
   imports: [
     RouterModule.forChild(routes),

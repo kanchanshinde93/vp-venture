@@ -22,6 +22,7 @@ count = 0;
 pageSize = 5;
 pageSizes = [5, 10, 15];
 config:any
+searchText:any
 
 options = {
   fieldSeparator: ',',
@@ -60,6 +61,7 @@ constructor(public afs: AngularFirestore, private store: AngularFireStorage,conf
             timestamp: date,
           })
         });
+        console.log(this.portfolios)
     });
   }
   

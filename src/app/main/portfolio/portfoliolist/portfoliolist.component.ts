@@ -39,6 +39,8 @@ export class PortfoliolistComponent implements OnInit {
   pageSize = 10;
   pageSizes = [5, 10, 15];
   config:any
+  isDesc: boolean = false;
+  column: string = 'CategoryName';
   options = {
     fieldSeparator: ',',
     quoteStrings: '"',
@@ -59,6 +61,7 @@ export class PortfoliolistComponent implements OnInit {
 
   ngOnInit(): void {
       // header content 
+      this.portfoliosData=[];
       this.contentHeader = {
         headerTitle: 'Portfolio List',
         actionButton: true,
@@ -86,7 +89,23 @@ export class PortfoliolistComponent implements OnInit {
 
   }
   
-
+  onsort(name:any){
+     this.isDesc = !this.isDesc; //change the direction    
+      let direction = this.isDesc ? 1 : -1;
+  
+      this.portfoliosData.sort(function (a, b) {
+        if (a[name] < b[name]) {
+          return -1 * direction;
+        }
+        else if (a[name] > b[name]) {
+          return 1 * direction;
+        }
+        else {
+          return 0;
+        }
+      });
+    
+  }
     // pagination section
     handlePageChange(event: number): void { // function for angular pagination handle page change event
       this.page = event;
@@ -99,7 +118,16 @@ export class PortfoliolistComponent implements OnInit {
     }
 
     getAllPortfoliosList(){
-      let PortfolioQuery =  (this.afs.collectionGroup('PORTFOLIO').get());
+     /*  this.afs.collection('PORTFOLIO').ref.orderBy('timestamp', 'desc').get()
+      .then(snap => {
+        console.log(snap);
+          snap.forEach(doc => {
+              console.log(doc);
+          });
+      });
+      let PortfoliqoQuery =  (this.afs.collection('PORTFOLIO', ref => ref.orderBy('timestamp', 'desc')).get());
+      console.log(PortfoliqoQuery) */
+     let PortfolioQuery =  (this.afs.collectionGroup('PORTFOLIO').get());
       this.PortfolioQueryData = PortfolioQuery.subscribe((PortfolioRawData) => { 
         PortfolioRawData.forEach((PortfolioDocuments) => { 
           let portfolios = PortfolioDocuments.data();
@@ -107,6 +135,7 @@ export class PortfoliolistComponent implements OnInit {
          
           this.afs.collection('INVESTORS',  ref => ref.where('uid', '==', portfolios["uid"])).doc(portfolios["uid"]).valueChanges().subscribe(InvestorDetails=>{
                 this.investors = InvestorDetails // get  Investor details by portfolios uid 
+                //console.log(this.investors)
                if(this.investors){
                 if(this.investors.phone){
                   portfolios["fullName"] =  this.investors.fullName
@@ -114,18 +143,20 @@ export class PortfoliolistComponent implements OnInit {
                   portfolios["timestamp"] = date
                   this.portfoliosData.push(portfolios);
                 }
+                
                }
-             
             });
         
           });
-          
-        this.PortfolioQueryData.unsubscribe();
+          this.PortfolioQueryData.unsubscribe();
       });
-      console.log(this.portfoliosData ,"potfolios")
     
-    }
-
-
-
+      console.log(this.portfoliosData ,"potfolios")
+      this.portfoliosData.sort(
+  function(a,b){ 
+     return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
+  });
+console.log(this.portfoliosData ,"potfolios1")
+     }
+    
 }

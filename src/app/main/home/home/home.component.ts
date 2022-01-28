@@ -9,6 +9,8 @@ import { DatePipe } from '@angular/common'
 import {ActivatedRoute} from "@angular/router"
 import { Router } from '@angular/router';
 import { forEach,sum} from 'lodash';
+import { NgxSpinnerService } from "ngx-spinner";
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -33,14 +35,22 @@ export class HomeComponent implements OnInit {
   pendingwithdrawCount:any
   referrals:any
 referralsCount:any
+public load = false;
+show = false;
+fullScreen = true;
+template = ``
   constructor(public afs: AngularFirestore,public datepipe: DatePipe,
     private _route: ActivatedRoute,
-    private _router: Router, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase, private activerouter: ActivatedRoute) { 
+    private _router: Router, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase, private activerouter: ActivatedRoute,private spinner: NgxSpinnerService) { 
   }
 
   ngOnInit(): void {
-      // header content 
-      this.contentHeader = {
+    this.spinner.show();
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 2000);
+
+       this.contentHeader = {
         headerTitle: 'Create Offer',
         actionButton: true,
         breadcrumb: {
@@ -77,13 +87,19 @@ referralsCount:any
       this.getReferralsList()
       this.getCompletePayoutList()
       this.getPendingPayoutList()
-
+      
   }
 
 
     AllInvestorCount(){
+      this.show = true;
+      this.fullScreen = true;
+      this.template =``
       this.afs.collection('INVESTORS').valueChanges({ idField: 'id' }).subscribe((data)=>{
-        this.investors = data;
+        setTimeout(() => {
+          this.show = false;
+      }, 4000);
+       this.investors = data;
         this.investorsCount = data.length
       });
     }
@@ -97,9 +113,10 @@ referralsCount:any
     }
 
     getAllPortfoliosList(){ 
+      
       this.afs.collectionGroup('PORTFOLIO').valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.portfolios = data;
-      this.portfoliosdata = data
+        this.portfoliosdata = data
         this.portfoliosCount = data.length
         let amounttotal = [];
         forEach(this.portfoliosdata,value => {
@@ -138,7 +155,7 @@ referralsCount:any
     getPendingPayoutList(){ 
       this.afs.collectionGroup('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.pendingwithdraw = data;
-        // console.log(data)
+         console.log(data)
         this.pendingwithdrawCount = data.length
       });
     }

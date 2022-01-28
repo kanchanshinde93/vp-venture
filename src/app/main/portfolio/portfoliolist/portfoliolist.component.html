@@ -27,26 +27,28 @@
                                 <th>Full Name</th>
                                 <!-- <th>uid</th> -->
                                 <th>Phone</th>
+                                <th>ReferralBy</th>
                                 <th>Amount</th>
                                 <th>Locking</th>
                                 <th>Profit</th>
                                 <th>Rate</th>
-                                <th>Date / Time</th>
+                                <th  (click)="onsort('timestamp')">Date / Time</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let portfolio of portfoliosData | filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;" >
+                              <tr *ngFor="let portfolio of portfoliosData | sortBy:'desc':'timestamp'| filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;" >
                              
                   
                                  <th scope="row">{{i + 1}}</th>
                             <td>{{portfolio.fullName}}</td>
                                 <!-- <td> {{portfolio.uid}}</td> -->
                                 <td>{{portfolio.phone}}</td>
+                                <td>NA</td>
                                 <td>{{portfolio.amount}}</td>
                                 <td>{{portfolio.locking}}</td>
-                                <td>{{portfolio.profit}}</td>
+                                <td>{{portfolio.profit | number : '1.2-2'}}</td>
                                 <td>{{portfolio.rate}}</td>
-                                <td>{{portfolio.timestamp}}</td>
+                                <td>{{portfolio.timestamp }}</td>
                         
                                 
                     

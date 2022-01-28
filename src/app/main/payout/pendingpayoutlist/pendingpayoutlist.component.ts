@@ -53,6 +53,9 @@ resultbalance:any
     keys: ['fullName', 'phone', 'amount', 'reason', 'type', 'timestamp']
 
   };
+  bankDetails: any;
+  ifsc_code: any;
+  bank_accountNumber: any;
   constructor(public afs: AngularFirestore, private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe, public OneService :OnesignalService) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -62,6 +65,7 @@ resultbalance:any
 
   ngOnInit(): void {
     // header content 
+    this.offers=[];
     this.contentHeader = {
       headerTitle: 'Pending Payout List',
       actionButton: true,
@@ -100,25 +104,36 @@ resultbalance:any
   }
 
   getAllPendingPayoutsList() {
+    this.offers=[];
     this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data) => {
       this.offersData = data;
       console.log(data)
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data) => { // basic  deatils 
           this.investors = data;
-          var date = this.datePipe.transform(value.timestamp.toDate(), "medium");
-          this.fullName = this.investors.fullName
-          this.phone = this.investors.phone
-          this.offers.push({
-            fullName: this.fullName,
-            phone: this.phone,
-            amount: value.amount,
-            reason: value.reason,
-            status: value.status,
-            timestamp: date,
-            type: value.type,
-            uid:value.uid
+          console.log(this.investors)
+          this.afs.collection('INVESTORS').doc(value.uid).collection('BANKS').valueChanges({ idField: 'id' }).subscribe((data) => { 
+            this.bankDetails=data;
+            console.log(this.bankDetails)
+            this.bank_accountNumber=this.bankDetails[0].account_number
+            this.ifsc_code=this.bankDetails[0].ifsc_code
+             var date = this.datePipe.transform(value.timestamp.toDate(), "medium");
+            this.fullName = this.investors.fullName
+            this.phone = this.investors.phone
+            this.offers.push({
+              fullName: this.fullName,
+              phone: this.phone,
+              amount: value.amount,
+              bankAccountNo:this.bank_accountNumber,
+              ifsc:this.ifsc_code,
+              reason: value.reason,
+              status: value.status,
+              timestamp: date,
+              type: value.type,
+              uid:value.uid
+            })
           })
+        
         });
       });
     });

@@ -13,7 +13,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { DatePipe } from '@angular/common';
 import {ToastrModule} from 'ngx-toastr';
-
+import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxLoaderModule } from '@tusharghoshbd/ngx-loader';
 
 const routes = [
   {
@@ -37,7 +38,7 @@ const routes = [
     NgbModule,
     ReactiveFormsModule,
     FormsModule,
-    ToastrModule
+    ToastrModule,NgxSpinnerModule,NgxLoaderModule
   ],
   exports: [HomeComponent]
 

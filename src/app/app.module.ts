@@ -34,6 +34,11 @@ import 'firebase/storage';
 import { environment } from "../environments/environment";
 import { SearchPipe } from './search.pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+
+import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxLoadingXModule } from 'ngx-loading-x';
+import { NgxLoaderModule } from '@tusharghoshbd/ngx-loader';
+
 const appRoutes: Routes = [
   {
     path: 'pages',
@@ -136,7 +141,9 @@ const appRoutes: Routes = [
     HomeModule,
     SupportModule,
     AuthenticationModule,
-    PayoutModule
+    PayoutModule,
+    NgxSpinnerModule ,  NgxLoadingXModule,NgxLoaderModule ,
+
   ],
 
   bootstrap: [AppComponent]

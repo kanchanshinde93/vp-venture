@@ -9,6 +9,7 @@ import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
 import { CreatenoticeComponent } from '../createnotice/createnotice.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-noticelist',
@@ -39,7 +40,7 @@ export class NoticelistComponent implements OnInit {
 
   };
   
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) { 
+  constructor(public afs: AngularFirestore, private spinner: NgxSpinnerService,private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -86,8 +87,10 @@ export class NoticelistComponent implements OnInit {
 
   //  get All Investor List From Firbase
 getAllNoticeList(){ 
+  this.spinner.show()
   this.afs.collection('NOTICE').valueChanges().subscribe((data)=>{
     this.notices = data;
+    this.spinner.hide()
     this.length = this.notices.length;
     console.log(this.notices)
   });

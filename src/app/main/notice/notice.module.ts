@@ -12,6 +12,7 @@ import {ToastrModule} from 'ngx-toastr';
 import { CreatenoticeComponent } from './createnotice/createnotice.component';
 import { NoticelistComponent } from './noticelist/noticelist.component'
 import { Angular2CsvModule } from 'angular2-csv';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes = [
   {
@@ -48,7 +49,7 @@ const routes = [
     ReactiveFormsModule,
     FormsModule,
     ToastrModule,
-    Angular2CsvModule
+    Angular2CsvModule,NgxSpinnerModule
   ],
   exports: [CreatenoticeComponent,NoticelistComponent]
 

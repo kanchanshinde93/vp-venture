@@ -14,6 +14,9 @@
             
             </div>
               <section id="ngx-datatable-kitchen-sink">
+                <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#7367f0" type="line-scale-party" >
+                  <p style="font-size: 20px; color: white">Loading...</p>
+                </ngx-spinner>
                   <div class="row">
                   </div>
                   <div class="row" id="table-striped">
@@ -27,8 +30,8 @@
                                 <th>Full Name</th>
                                 <th>Phone</th>
                                 <th>Amount</th>
-                                <th>Bank Account No.</th>
-                                <th>IFSC Code</th>
+                                <!-- <th>Bank Account No.</th>
+                                <th>IFSC Code</th> -->
                                 <th>Reason</th>
                                 <th>Payout Request Type</th>
                                 <th>Date / Time</th>
@@ -43,8 +46,8 @@
                                 <td>{{offer.fullName}}</td>
                                 <td>{{offer.phone}}</td>
                                 <td>{{offer.amount}}</td>
-                                <td>{{offer.bankAccountNo}}</td>
-                                <td>{{offer.ifsc}}</td>
+                                <!-- <td>{{offer.bankAccountNo}}</td>
+                                <td>{{offer.ifsc}}</td> -->
                                 <td>{{offer.reason}}</td>
                                 <td>
                                     <p *ngIf="offer.type === 1">

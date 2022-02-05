@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-support',
@@ -34,7 +35,7 @@ export class SupportComponent implements OnInit {
     keys: ['email','address', 'phone']
 
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) { 
+  constructor(public afs: AngularFirestore, private spinner: NgxSpinnerService,private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -80,8 +81,11 @@ export class SupportComponent implements OnInit {
 
     //  get All Investor List From Firbase
   getAllSupportList(){ 
+    this.supports=[];
+    this.spinner.show();
     this.afs.collection('CONFIG').doc('SUPPORT').valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.supports.push(data);
+      this.spinner.hide();
     });
   }
 

@@ -39,6 +39,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxLoadingXModule } from 'ngx-loading-x';
 import { NgxLoaderModule } from '@tusharghoshbd/ngx-loader';
 
+
 const appRoutes: Routes = [
   {
     path: 'pages',

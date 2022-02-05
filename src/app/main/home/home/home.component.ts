@@ -41,14 +41,13 @@ fullScreen = true;
 template = ``
   constructor(public afs: AngularFirestore,public datepipe: DatePipe,
     private _route: ActivatedRoute,
-    private _router: Router, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService,public db: AngularFireDatabase, private activerouter: ActivatedRoute,private spinner: NgxSpinnerService) { 
+    private _router: Router, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,
+    public toastr: ToastrService,public db: AngularFireDatabase, private activerouter: ActivatedRoute,private spinner: NgxSpinnerService) { 
   }
 
   ngOnInit(): void {
     this.spinner.show();
-    setTimeout(() => {
-      this.spinner.hide();
-    }, 2000);
+   
 
        this.contentHeader = {
         headerTitle: 'Create Offer',
@@ -87,18 +86,17 @@ template = ``
       this.getReferralsList()
       this.getCompletePayoutList()
       this.getPendingPayoutList()
-      
+      setTimeout(() => {
+        this.spinner.hide();
+      }, 5000);
   }
 
 
     AllInvestorCount(){
-      this.show = true;
+     
       this.fullScreen = true;
       this.template =``
       this.afs.collection('INVESTORS').valueChanges({ idField: 'id' }).subscribe((data)=>{
-        setTimeout(() => {
-          this.show = false;
-      }, 4000);
        this.investors = data;
         this.investorsCount = data.length
       });
@@ -153,7 +151,7 @@ template = ``
     }
 
     getPendingPayoutList(){ 
-      this.afs.collectionGroup('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
+      this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.pendingwithdraw = data;
          console.log(data)
         this.pendingwithdrawCount = data.length

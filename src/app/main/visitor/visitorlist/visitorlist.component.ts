@@ -3,6 +3,7 @@ import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angular bootsrap modal
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-visitorlist',
   templateUrl: './visitorlist.component.html',
@@ -27,7 +28,7 @@ export class VisitorlistComponent implements OnInit {
     removeNewLines: false,
     keys: ['fullname','email', 'phone', 'city']
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal) {
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,private spinner: NgxSpinnerService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -73,8 +74,10 @@ export class VisitorlistComponent implements OnInit {
     }
 
   getAllVisitorsList(){
+    this.spinner.show();
     this.afs.collection('LEADS').valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.visitors = data;
+      this.spinner.hide();
     });
   }
 

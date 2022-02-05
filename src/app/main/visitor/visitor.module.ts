@@ -9,6 +9,7 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {NgxPaginationModule} from 'ngx-pagination';
 import { Angular2CsvModule } from 'angular2-csv';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes = [
   {
@@ -31,7 +32,7 @@ const routes = [
     NgxDatatableModule,
     NgxPaginationModule,
     NgbModule,
-    Angular2CsvModule
+    Angular2CsvModule,NgxSpinnerModule
   ],
   exports: [VisitorlistComponent]
 })

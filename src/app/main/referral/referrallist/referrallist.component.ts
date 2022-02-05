@@ -9,6 +9,7 @@ import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
 import {ActivatedRoute} from "@angular/router"
+import { NgxSpinnerService } from 'ngx-spinner';
 // import { Observable } from 'rxjs';
 @Component({
   selector: 'app-referrallist',
@@ -45,7 +46,7 @@ searchText:any
     keys: ['fullName','phone', 'referralsfullName', 'referralsPhone']
 
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
+  constructor(public afs: AngularFirestore,private spinner: NgxSpinnerService, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -93,6 +94,8 @@ searchText:any
   }
      //  get All Referra List From Firbase
       getAllReferralList(){
+        this.referralsData=[];
+        this.spinner.show();
         let ReferralQuery= (this.afs.collection('REFERRAL').get());
         this.ReferralQuerySubscription = ReferralQuery.subscribe(ReferralQueryData => {
           ReferralQueryData.forEach((RefferalDocuments) => { 
@@ -125,6 +128,7 @@ searchText:any
                 this.ReferredQuerySubscription.unsubscribe();
               });
             });
+            this.spinner.hide();
           this.ReferralQuerySubscription.unsubscribe();
         });
 

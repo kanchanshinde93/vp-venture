@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-portfoliolist',
@@ -52,7 +53,7 @@ export class PortfoliolistComponent implements OnInit {
     keys: ['fullName','phone','amount','locking', 'profit', 'rate', 'timestamp']
   
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public datePipe: DatePipe) { 
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,private spinner: NgxSpinnerService,public datePipe: DatePipe) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -60,6 +61,7 @@ export class PortfoliolistComponent implements OnInit {
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   ngOnInit(): void {
+    this.portfoliosData=[]
       // header content 
       this.portfoliosData=[];
       this.contentHeader = {
@@ -118,16 +120,9 @@ export class PortfoliolistComponent implements OnInit {
     }
 
     getAllPortfoliosList(){
-     /*  this.afs.collection('PORTFOLIO').ref.orderBy('timestamp', 'desc').get()
-      .then(snap => {
-        console.log(snap);
-          snap.forEach(doc => {
-              console.log(doc);
-          });
-      });
-      let PortfoliqoQuery =  (this.afs.collection('PORTFOLIO', ref => ref.orderBy('timestamp', 'desc')).get());
-      console.log(PortfoliqoQuery) */
-     let PortfolioQuery =  (this.afs.collectionGroup('PORTFOLIO').get());
+     this.portfoliosData=[]
+     this.spinner.show()
+     let PortfolioQuery =  (this.afs.collectionGroup('PORTFOLIO',ref=>ref.orderBy('timestamp', 'desc')).get());
       this.PortfolioQueryData = PortfolioQuery.subscribe((PortfolioRawData) => { 
         PortfolioRawData.forEach((PortfolioDocuments) => { 
           let portfolios = PortfolioDocuments.data();
@@ -148,15 +143,13 @@ export class PortfoliolistComponent implements OnInit {
             });
         
           });
+          this.spinner.hide()
           this.PortfolioQueryData.unsubscribe();
       });
     
       console.log(this.portfoliosData ,"potfolios")
-      this.portfoliosData.sort(
-  function(a,b){ 
-     return new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime();
-  });
-console.log(this.portfoliosData ,"potfolios1")
+    
+
      }
     
 }

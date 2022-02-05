@@ -13,6 +13,7 @@ import { Angular2CsvModule } from 'angular2-csv';
 
 import { SupportComponent } from './support/support.component';
 import {Ng2SearchPipeModule} from 'ng2-search-filter'
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 const routes = [
 
@@ -41,7 +42,7 @@ const routes = [
     FormsModule,
     ToastrModule,
     Angular2CsvModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,NgxSpinnerModule
 
   ],
   exports: [SupportComponent]

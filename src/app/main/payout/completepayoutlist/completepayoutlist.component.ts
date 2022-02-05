@@ -10,6 +10,7 @@ import { combineLatest } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import * as sha512 from 'js-sha512';
 import { OnesignalService} from '../../../service/onesignal.service'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-completepayoutlist',
@@ -51,7 +52,7 @@ searchText:any
     keys: ['fullName', 'phone', 'amount', 'reason', 'type', 'timestamp']
 
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe, public OneService :OnesignalService) {
+  constructor(public afs: AngularFirestore, private spinner: NgxSpinnerService,private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe, public OneService :OnesignalService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -100,13 +101,15 @@ searchText:any
   }
 
   getAllPendingPayoutsList() {
+    this.offers=[];
+    this.spinner.show();
     this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 2)).valueChanges({ idField: 'id' }).subscribe((data) => {
       this.offersData = data;
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data) => { // basic  deatils 
           this.investors = data;
           // console.log(value)
-          var date = this.datePipe.transform(value.timestamp.toDate(), "medium");
+          var date = this.datePipe.transform(value.timestamp?.toDate(), "medium");
           // console.log(date)
           this.fullName = this.investors.fullName
           this.phone = this.investors.phone
@@ -120,6 +123,7 @@ searchText:any
             type: value.type,
             uid:value.uid
           })
+          this.spinner.hide();
         });
       });
       // console.log(this.offers, "withdraw")

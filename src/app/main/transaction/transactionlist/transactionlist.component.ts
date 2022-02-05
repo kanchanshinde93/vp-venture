@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angular bootsrap modal
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-transactionlist',
@@ -50,7 +51,7 @@ export class TransactionlistComponent implements OnInit {
     keys: ['fullName','phone','amount','reason']
   
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public datePipe: DatePipe) { 
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private spinner: NgxSpinnerService,private modalService: NgbModal,public datePipe: DatePipe) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -97,6 +98,7 @@ export class TransactionlistComponent implements OnInit {
     }
 
     getAllTransactionList(){ 
+      this.spinner.show()
     let transactionQuery =  (this.afs.collectionGroup('TRANSACTION').get());
     this.transactionQueryData = transactionQuery.subscribe((transactionRawData) => { 
       transactionRawData.forEach((transactionDocuments) => { 
@@ -114,7 +116,7 @@ export class TransactionlistComponent implements OnInit {
           });
      
         });
-        
+        this.spinner.hide()
       this.transactionQueryData.unsubscribe();
     });
     console.log(this.transactionData ,"potfolios")

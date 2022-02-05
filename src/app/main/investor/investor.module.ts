@@ -14,6 +14,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { DatePipe } from '@angular/common';
 import { ActiveinvestorlistComponent } from './activeinvestorlist/activeinvestorlist.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 const routes = [
   {
     path: 'investorlist',
@@ -44,7 +45,7 @@ const routes = [
     NgxPaginationModule,
     NgbModule,
     Angular2CsvModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,NgxSpinnerModule
   ],
   providers: [
     DatePipe,

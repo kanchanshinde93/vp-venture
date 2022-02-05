@@ -15,6 +15,7 @@ import { OfferlistComponent } from './offerlist/offerlist.component'
 import { Angular2CsvModule } from 'angular2-csv';
 import { HttpClientModule } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { NgxSpinnerModule } from 'ngx-spinner';
 const routes = [
   {
     path: 'createoffer',
@@ -55,7 +56,7 @@ const routes = [
     FormsModule,
     ToastrModule,
     Angular2CsvModule,
-    Ng2SearchPipeModule
+    Ng2SearchPipeModule,NgxSpinnerModule
   ],
   providers: [
     DatePipe,

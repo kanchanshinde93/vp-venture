@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { mergeMap } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-allpayoutlist',
@@ -45,7 +46,8 @@ searchText:any
   bank_accountNumber: any;
   ifsc_code: any;
   bankDetails:any;
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public datePipe: DatePipe) { 
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,
+    private modalService: NgbModal,public datePipe: DatePipe,private spinner: NgxSpinnerService) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -94,6 +96,7 @@ searchText:any
     }
 
   getAllPayoutsList(){
+    this.spinner.show();
     this.offers=[];
     this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.offersData = data;
@@ -101,7 +104,7 @@ searchText:any
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
             this.investors = data;
             //console.log(value)
-            var date =  this.datePipe.transform(value.timestamp.toDate(),"medium");
+            var date =  this.datePipe.transform(value.timestamp?.toDate(),"medium");
             // console.log(date)
             this.fullName = this.investors.fullName
             this.phone = this.investors.phone
@@ -120,7 +123,7 @@ searchText:any
             
         });
       });
-     
+      this.spinner.hide();
       console.log(this.offers,"withdraw")
     });
   }

@@ -10,6 +10,7 @@ import { combineLatest } from 'rxjs';
 import {ToastrService} from 'ngx-toastr'
 import {ActivatedRoute} from "@angular/router"
 import { DatePipe } from '@angular/common';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -43,7 +44,7 @@ export class OfferlistComponent implements OnInit {
     keys: ['amount','duration', 'profit',  'date']
   
   };
-  constructor(public afs: AngularFirestore, public datePipe: DatePipe, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
+  constructor(public afs: AngularFirestore, private spinner: NgxSpinnerService,public datePipe: DatePipe, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService, private activerouter: ActivatedRoute) { 
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -96,6 +97,8 @@ export class OfferlistComponent implements OnInit {
     }
     //  get All Investor List From Firbase
     getAllOfferList(){ 
+      this.offers=[];
+      this.spinner.show()
       this.afs.collection('OFFER').valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.offersData = data;
       console.log(this.offers,"investor")
@@ -111,11 +114,14 @@ export class OfferlistComponent implements OnInit {
               date:value.date,
             })
           });
+          this.spinner.hide()
       console.log(this.offers,"investor")
 
       });
     }
   getInvestorOfferList(uid){
+    this.offers=[];
+    this.spinner.show()
     this.afs.collection('INVESTORS').doc(uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
       this.investors = data;
       this.fullName = this.investors.fullName
@@ -134,7 +140,7 @@ export class OfferlistComponent implements OnInit {
          
           })
         });
-     
+        this.spinner.hide()
       console.log(this.offers,"investor")
     });
   }

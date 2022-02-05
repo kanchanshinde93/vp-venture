@@ -6,6 +6,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angula
 import { InvestorportfolioComponent } from '../investorportfolio/investorportfolio.component';
 import {InvestortransactionlistComponent} from '../investortransactionlist/investortransactionlist.component'
 import {ToastrService} from 'ngx-toastr'
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Component({
@@ -59,7 +60,7 @@ export class ActiveinvestorlistComponent implements OnInit {
     keys: ['fullName','email', 'phone', 'city']
 
   };
-  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal,public toastr: ToastrService) {
+  constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private spinner: NgxSpinnerService,private modalService: NgbModal,public toastr: ToastrService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -94,8 +95,10 @@ export class ActiveinvestorlistComponent implements OnInit {
 
   //  get All Active Investor List From Firbase
   getAllActiveInvestorsList(){ 
+    this.spinner.show()
     this.afs.collection('INVESTORS', ref => ref.where('type', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.investors = data;
+      this.spinner.hide()
     });
   }
 

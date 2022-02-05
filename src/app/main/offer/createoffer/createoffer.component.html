@@ -1,0 +1,50 @@
+
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <app-content-header [contentHeader]="contentHeader"></app-content-header>
+      <div class="form-card">
+        <!-- <button (click)="showSuccess()">Success</button> -->
+        <section id="multiple-column-form">
+            <div class="row match-height">
+              <div class="col-12">
+                  <h4 class="card-title form-title">Create Offer</h4>
+                  <div class="card-body">
+                    <form class="form" [formGroup]="form"  (ngSubmit)="onSubmit()">
+                      <div class="row">
+                        <div class="col-md-6 col-12">
+                          <div class="form-group">
+                            <label for="offer-amount">Offer Amount</label>
+                            <input type="text" id="offer-amount" class="form-control" placeholder="Offer Amount" formControlName="amount"/>
+                          </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="offer-profit">Offer Profit</label>
+                              <input type="text" id="offer-profit" class="form-control" placeholder="Offer Profit" formControlName="profit"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="offer-duration">Offer Duration</label>
+                              <input type="text" id="offer-duration" class="form-control" placeholder="Offer Duration" formControlName="duration"/>
+                            </div>
+                          </div>
+                          <div class="col-md-6 col-12">
+                            <div class="form-group">
+                              <label for="offer-start-date">Offer Start Date</label>
+                              <input type="date" id="offer-start-date" class="form-control" placeholder="Offer Start Date" formControlName="date"/>
+                            </div>
+                          </div>
+                        <div class="col-12">
+                          <button type="submit" rippleEffect class="btn btn-primary mr-1">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+            </div>
+          </section>
+      </div>
+      
+    </div>
+  </div>

@@ -1,0 +1,31 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <app-content-header [contentHeader]="contentHeader"></app-content-header>
+      <div class="form-card">
+        <!-- <button (click)="showSuccess()">Success</button> -->
+        <section id="multiple-column-form">
+            <div class="row match-height">
+              <div class="col-12">
+                  <h4 class="card-title form-title">Create Notice</h4>
+                  <div class="card-body">
+                    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+                      <div class="row">
+                        <div class="col-md-12 col-12">
+                          <div class="form-group">
+                            <label for="notice">Notice Title</label>
+                            <input type="text" id="notice" class="form-control" placeholder="Notice Title" formControlName="title"/>
+                          </div>
+                        </div>
+                        <div class="col-12">
+                          <button type="submit" rippleEffect class="btn btn-primary mr-1">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+            </div>
+          </section>
+      </div>
+      
+    </div>
+  </div>

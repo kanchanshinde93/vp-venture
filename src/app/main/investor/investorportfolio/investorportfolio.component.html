@@ -34,7 +34,11 @@
                                 <!-- <th>Actions</th> -->
                               </tr>
                             </thead>
+                          
                             <tbody>
+                              <span *ngIf="length == 0">
+                                <p>NoDatafound</p>
+                              </span>
                               <tr *ngFor="let portfolio of portfolios | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{portfolio.amount}}</td>

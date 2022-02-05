@@ -23,7 +23,7 @@ pageSize = 5;
 pageSizes = [5, 10, 15];
 config:any
 searchText:any
-
+length:any
 options = {
   fieldSeparator: ',',
   quoteStrings: '"',
@@ -36,6 +36,7 @@ options = {
 
 };
 @Input() public doc_uid;
+  portfoliosDatalenght: number;
 
 constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private modalService: NgbModal, public datePipe: DatePipe) {
   config.backdrop = 'static';
@@ -50,6 +51,8 @@ constructor(public afs: AngularFirestore, private store: AngularFireStorage,conf
   
     this.afs.collection('INVESTORS').doc(this.doc_uid).collection('PORTFOLIO').valueChanges({ idField: 'id' }).subscribe((data)=>{ // bank details
       this.portfoliosData= data;
+      this.length = this.portfoliosData.length;
+   
       this.portfoliosData.forEach(value => {
         var date =  this.datePipe.transform(value.timestamp.toDate(),"medium");
           console.log(date)

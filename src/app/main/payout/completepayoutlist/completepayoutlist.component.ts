@@ -103,7 +103,7 @@ searchText:any
   getAllPendingPayoutsList() {
     this.offers=[];
     this.spinner.show();
-    this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 2)).valueChanges({ idField: 'id' }).subscribe((data) => {
+    let withdrawtable=this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 2)).valueChanges({ idField: 'id' }).subscribe((data) => {
       this.offersData = data;
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data) => { // basic  deatils 
@@ -124,6 +124,7 @@ searchText:any
             uid:value.uid
           })
           this.spinner.hide();
+          withdrawtable.unsubscribe()
         });
       });
       // console.log(this.offers, "withdraw")

@@ -63,7 +63,7 @@ export class CreateofferComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.form.value);
-   this.date=this.form.value['date'];
+    this.date=this.form.value['date'];
     let myDateTemp = new Date(this.date);
     const docid  = this.afs.createId();
     this.afs.collection('OFFER').doc(docid).set({ 
@@ -86,13 +86,12 @@ export class CreateofferComponent implements OnInit {
           });
       this.toastr.success('success', 'Offer Created Successfully', {
         timeOut: 100000,
-      });
-      setTimeout(()=>{      //<<<---using ()=> syntax
-         window.location.reload();
-      }, 30000);
-
+      }); 
+      this.form.reset();
      
-    } 
+    }
+     
+    
   }
   // GetAllDetailsofStorebyId(){ // get All Details of Store By Store Id
   //   this.oneSignal.onesignal()

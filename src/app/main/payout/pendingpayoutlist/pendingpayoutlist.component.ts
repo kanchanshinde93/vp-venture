@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import * as sha512 from 'js-sha512';
 import { OnesignalService} from '../../../service/onesignal.service'
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-pendingpayoutlist',
   templateUrl: './pendingpayoutlist.component.html',
@@ -56,8 +57,9 @@ resultbalance:any
   };
   bankDetails: any;
   ifsc_code: any;
+  newProfit:any;
   bank_accountNumber: any;
-  constructor(public afs: AngularFirestore, private spinner: NgxSpinnerService,private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe, public OneService :OnesignalService) {
+  constructor(public afs: AngularFirestore, public toastr: ToastrService,private spinner: NgxSpinnerService,private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe, public OneService :OnesignalService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
@@ -105,45 +107,43 @@ resultbalance:any
   }
 
   getAllPendingPayoutsList() {
+   this.spinner.show()
     this.offers=[];
-    this.spinner.show()
-    this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data) => {
+    let withdrawtable=this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data) => {
       this.offersData = data;
       console.log(data)
+        this.offers=[];
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data) => { // basic  deatils 
           this.investors = data;
-          console.log(this.investors)
           var date = this.datePipe.transform(value.timestamp.toDate(), "medium");
           this.fullName = this.investors.fullName
-          this.phone = this.investors.phone
-          /* this.afs.collection('INVESTORS').doc(value.uid).collection('BANKS').valueChanges({ idField: 'id' }).subscribe((data) => { 
-            this.bankDetails=data;
-            console.log(this.bankDetails)
-            this.bank_accountNumber=this.bankDetails[0].account_number
-            this.ifsc_code=this.bankDetails[0].ifsc_code
-          }) */
-            
-            this.offers.push({
+          this.phone = this.investors.phone 
+        
+          this.offers.push({
+              id:value.id,
               fullName: this.fullName,
               phone: this.phone,
               amount: value.amount,
-             /*  bankAccountNo:this.bank_accountNumber,
-              ifsc:this.ifsc_code, */
+              bankAccountNo:value.account_number,
+              ifsc:value.ifsc_code, 
               reason: value.reason,
               status: value.status,
               timestamp: date,
               type: value.type,
               uid:value.uid
             })
+            withdrawtable.unsubscribe()
             this.spinner.hide()
         
         });
       });
     });
+    
   }
 
   payout(uid, amount, id) {
+    console.log(uid,+amount,+id)
     this.amount = amount
     this.afs.collection('INVESTORS').doc(uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
       this.investors = data;
@@ -153,29 +153,41 @@ resultbalance:any
       this.city = this.investors.city
       this.afs.collection('INVESTORS').doc(uid).collection('BANKS').valueChanges({ idField: 'id' }).subscribe((data)=>{ // bank details
         this.banks = data;
-       this.accountNumber = this.banks[0].account_number; 
-       this.ifsc = this.banks[0].ifsc_code; 
-       this.name_on_account = this.banks[0].name_on_account
-       this.OneService.payout(this.email,this.phone,this.accountNumber, this.ifsc,this.name_on_account, this.amount).subscribe(resultData => { // call api 
+       this.accountNumber = this.banks[0]?.account_number; 
+       this.ifsc = this.banks[0]?.ifsc_code; 
+       this.name_on_account = this.banks[0]?.name_on_account
+      this.OneService.payout(this.email,this.phone,this.accountNumber, this.ifsc,this.name_on_account, this.amount).subscribe(resultData => {
         this.result = resultData;
-          console.log(this.result)
-          this.afs.collection('WITHDRAW').doc(id).set({ 
+        console.log(this.result)
+        this.toastr.success('success', ' Successfully', {
+          timeOut: 100000,
+        }); 
+        })  
+        
+        this.afs.collection('WITHDRAW').doc(id).update({ 
             status:2,
           });
-          this.afs.collection('BALANCE').doc(uid).valueChanges().subscribe((data)=>{
-            console.log(data)
-            this.resultbalance = data
-            this.profit = this.resultbalance.profit
-            var newProfit = this.profit - amount;
-            this.afs.collection('BALANCE').doc(uid).set({ 
-              profit:newProfit,
-            });
-           })
-          });
+       
+         let data1= this.afs.collection('BALANCE').doc(uid).valueChanges().subscribe((data)=>{
+          console.log(data)
+          this.resultbalance = data
+          this.profit = this.resultbalance.profit
+          this.newProfit = this.profit - amount.toFixed(2);
+            console.log(this.newProfit)
+            data1.unsubscribe();
+            this.afs.collection('BALANCE').doc(uid).update({ 
+            profit:this.newProfit
+              });
+             //return;
+        }) 
+
+      this.getAllPendingPayoutsList()
+        
       });
-    });
+      });
+ 
    
     
     
-  }
+  } 
 }

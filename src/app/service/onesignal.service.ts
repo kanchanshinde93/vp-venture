@@ -53,8 +53,7 @@ export class OnesignalService {
             'authorization': authhashkey, 'Content-Type':
             'application/json'
           }),
-        })
-        .pipe(
+        }).pipe(
           retry(1),
           catchError((err) => {
             return throwError(err);    //Rethrow it back to component

@@ -135,7 +135,7 @@ template = ``
     }
 
     getAllPayoutList(){ 
-      this.afs.collectionGroup('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
+      this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.withdraw = data;
         // console.log(data)
         this.withdrawCount = data.length
@@ -143,7 +143,7 @@ template = ``
     }
 
     getCompletePayoutList(){ 
-      this.afs.collectionGroup('WITHDRAW', ref => ref.where('status', '==', 2)).valueChanges({ idField: 'id' }).subscribe((data)=>{
+      this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 2)).valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.completewithdraw = data;
         // console.log(data)
         this.completewithdrawCount = data.length

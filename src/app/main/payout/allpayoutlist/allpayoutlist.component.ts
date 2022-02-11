@@ -98,8 +98,9 @@ searchText:any
   getAllPayoutsList(){
     this.spinner.show();
     this.offers=[];
-    this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
+    let withdrawtable=this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.offersData = data;
+      console.log(this.offersData)
       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
             this.investors = data;
@@ -124,6 +125,7 @@ searchText:any
         });
       });
       this.spinner.hide();
+      withdrawtable.unsubscribe()
       console.log(this.offers,"withdraw")
     });
   }

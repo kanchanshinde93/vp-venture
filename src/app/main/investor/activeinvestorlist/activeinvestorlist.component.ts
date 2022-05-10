@@ -53,20 +53,23 @@ export class ActiveinvestorlistComponent implements OnInit {
     fieldSeparator: ',',
     quoteStrings: '"',
     decimalseparator: '.',
-    headers: ['Full Name','Email', 'Phone', 'City'],
+    headers: ['Full Name','Email', 'Phone', 'City','Date/Time','Current Investment Balance','Wallet Balance'],
     showTitle: false,
     useBom: true,
     removeNewLines: false,
-    keys: ['fullName','email', 'phone', 'city']
+    keys: ['fullName','email', 'phone', 'city','timestamp','investment','profit']
 
   };
+  inverstorQueryData: any;
+  NewData: any=[];
   constructor(public afs: AngularFirestore, private store: AngularFireStorage,config: NgbModalConfig,private spinner: NgxSpinnerService,private modalService: NgbModal,public toastr: ToastrService) {
     config.backdrop = 'static';
     config.keyboard = false;
   }
   @ViewChild(DatatableComponent) table: DatatableComponent;
   ngOnInit(): void {
-    // header content 
+    // header content
+    this.NewData=[];
     this.contentHeader = {
       headerTitle: 'Active Investor List',
       actionButton: true,
@@ -94,12 +97,30 @@ export class ActiveinvestorlistComponent implements OnInit {
   }
 
   //  get All Active Investor List From Firbase
-  getAllActiveInvestorsList(){ 
+  getAllActiveInvestorsList(){
+    
     this.spinner.show()
-    this.afs.collection('INVESTORS', ref => ref.where('type', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
+    this.NewData=[];
+   /*  this.afs.collection('INVESTORS', ref => ref.where('type', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
       this.investors = data;
       this.spinner.hide()
+    }); */
+    let investorQuery =  (this.afs.collection('INVESTORS', ref => ref.where('type', '==', 1)).get());
+    this.inverstorQueryData = investorQuery.subscribe((investorRawData) => { 
+      investorRawData.forEach((investorsDocuments) => { 
+        let investors = investorsDocuments.data();
+       // var date =  this.datePipe.transform(investors["timestamp"].toDate(),"medium");
+        this.afs.collection('BALANCE').doc(investors["uid"]).valueChanges().subscribe(InvestorDetails=>{
+              this.investors = InvestorDetails // get  Investor details by transactions uid 
+              investors["investment"] =  this.investors?.investment
+              investors["profit"] =  this.investors?.profit
+              this.NewData.push(investors);
+             });
+        });
+        this.spinner.hide()
+      this.inverstorQueryData.unsubscribe();
     });
+    console.log(this.NewData ,"activeinvestors")
   }
 
     // pagination section
@@ -112,4 +133,7 @@ export class ActiveinvestorlistComponent implements OnInit {
       this.page = 1;
       this.ngOnInit();// call on load function
     }
+    ngOnDestroy() {
+      this.inverstorQueryData.unsubscribe();
+  }
 }

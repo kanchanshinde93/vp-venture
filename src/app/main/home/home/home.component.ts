@@ -88,7 +88,7 @@ template = ``
       this.getPendingPayoutList()
       setTimeout(() => {
         this.spinner.hide();
-      }, 5000);
+      }, 2000);
   }
 
 
@@ -138,7 +138,13 @@ template = ``
       this.afs.collection('WITHDRAW').valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.withdraw = data;
         // console.log(data)
-        this.withdrawCount = data.length
+        //this.withdrawCount = data.length
+        let allpayouttotal = [];
+        forEach(this.withdraw,value => {
+          allpayouttotal.push(value.amount);
+        });
+         console.log(sum(allpayouttotal));
+         this.withdrawCount = sum(allpayouttotal)
       });
     }
 
@@ -153,8 +159,17 @@ template = ``
     getPendingPayoutList(){ 
       this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.pendingwithdraw = data;
-         console.log(data)
-        this.pendingwithdrawCount = data.length
+        //this.pendingwithdrawCount = data.length
+        // console.log(data)
+        
+         let pendingpayouttotal = [];
+        forEach(this.pendingwithdraw,value => {
+         
+          pendingpayouttotal.push(value.amount);
+        });
+         console.log(sum(pendingpayouttotal));
+       this.pendingwithdrawCount = sum(pendingpayouttotal)
+    
       });
     }
     getReferralsList(){ 

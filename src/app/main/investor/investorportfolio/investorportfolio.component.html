@@ -1,8 +1,12 @@
-<div class="modal-header">
+<div class="modal-header" >
     <h5 class="modal-title" id="myModalLabel160">{{fullName}} Portfolio Details</h5>
+    <a type="button"  (click)="transactionDetails(doc_uid)" class="btn btn-relief-info portfolio">Transaction Details</a>
+    <a type="button" href="/offer/createoffer/{{doc_uid}}" class="btn btn-relief-info portfolio">Investor Offer</a>
+    <a type="button" href="/offer/offerlist/{{doc_uid}}" class="btn btn-relief-info portfolio">Offer List</a>
     <span class="csv-button">
       <angular2csv [data]="portfolios" class="csv" filename="investorsportfolio.csv" [options]="options"></angular2csv>
     </span>
+    
     <button type="button" class="close" #viewInvestor (click)="close()"aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -14,10 +18,13 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header"><h4 class="card-title">Portfolio List</h4></div>
-              <section id="ngx-datatable-kitchen-sink">
+            <span *ngIf="length == 0">
+              <p>NoDatafound</p>
+            </span>
+              <section id="ngx-datatable-kitchen-sink"  *ngIf="length>0">
                   <div class="row">
                   </div>
-                  <div class="row" id="table-striped">
+                 <div class="row" id="table-striped">
                     <div class="col-12">
                       <div class="card">
                         <div class="table-responsive">
@@ -36,14 +43,12 @@
                             </thead>
                           
                             <tbody>
-                              <span *ngIf="length == 0">
-                                <p>NoDatafound</p>
-                              </span>
+                            
                               <tr *ngFor="let portfolio of portfolios | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{portfolio.amount}}</td>
                                 <td>{{portfolio.locking}}</td>
-                                <td>{{portfolio.profit}}</td>
+                                <td>{{portfolio.profit | number : '1.2-2'}}</td>
                                 <td>{{portfolio.rate}}</td>
                                 <td>{{portfolio.timestamp}}</td>
                             

@@ -1,0 +1,55 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+       <app-content-header [contentHeader]="contentHeader"></app-content-header> 
+      <div class="form-card">
+        <!-- <button (click)="showSuccess()">Success</button> -->
+        <section id="multiple-column-form">
+            <div class="row match-height">
+              <div class="col-12">
+                  <h4 class="card-title form-title">Create Portfolio</h4>
+                  <div class="card-body">
+                    <form class="form-group" [formGroup]="protfolioForm" (ngSubmit)="onSubmit()">
+                      <div class="row">
+                        <div class="col-md-10 col-12">
+                          <div class="form-group">
+                            <label for="offer-amount">Investor Name</label>
+                            <input  type="text" id="offer-amount" class="form-control"   (keyup)="search()" [(ngModel)]="searchValue" placeholder="investor Name" formControlName="investorName"/>
+                         <div class="search-results" *ngIf="autocomplete">
+                                <!-- <div class="search-result" *ngFor="let result of results | async">
+                                  {{ result.fullName }}
+                                </div> -->
+                                <ul>  
+                                    <li *ngFor="let result of results | async">  
+                                        <a (click)="onselectClient(result)">{{result.fullName}}</a>  
+                                    </li>             
+                                </ul>  
+                              </div> 
+                      
+                          </div>
+                        </div>
+                        <div class="col-md-10 col-12">
+                            <div class="form-group">
+                              <label for="offer-profit">Amount</label>
+                              <input type="text" id="offer-profit" class="form-control" placeholder="Amount" formControlName="amount"/>
+                            </div>
+                          </div>
+                          <div class="col-md-10 col-12">
+                            <div class="form-group">
+                              <label for="offer-duration">locking Period</label>
+                              <input type="text" id="offer-duration" class="form-control" placeholder="Offer Duration" formControlName="lockingPeriod"/>
+                            </div>
+                          </div>
+                        
+                        <div class="col-12">
+                          <button type="submit" rippleEffect class="btn btn-primary mr-1">Submit</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+              </div>
+            </div>
+          </section>
+      </div>
+      
+    </div>
+  </div>

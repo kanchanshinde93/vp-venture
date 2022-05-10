@@ -9,7 +9,7 @@
                 <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="Search">
               </span>
               <span>
-                <angular2csv [data]="investors" class="csv" filename="investors.csv" [options]="options"></angular2csv>
+                <angular2csv [data]="NewData" class="csv" filename="investors.csv" [options]="options"></angular2csv>
               </span>
             </div>
               <section id="ngx-datatable-kitchen-sink">
@@ -30,16 +30,22 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>City</th>
+                                <th>Date/Time</th>
+                                <th>Current Investment Balance</th>
+                                <th>Wallet Balance</th>
                                 <th>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr *ngFor="let investor of investors | filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
+                              <tr *ngFor="let investor of NewData | filter:searchText  | paginate : { itemsPerPage: pageSize, currentPage: page, totalItems: count } let i=index;">
                                 <th scope="row">{{i + 1}}</th>
                                 <td>{{investor.fullName}}</td>
                                 <td>{{investor.email}}</td>
                                 <td>{{investor.phone}}</td>
                                 <td>{{investor.city}}</td>
+                                <td>{{investor.timestamp.toDate() | date: 'medium'}}</td> 
+                                <td>{{investor.investment}}</td>
+                                 <td>{{investor.profit | number : '1.2-2'}}</td>
                                 <!-- <td><span class="badge badge-pill badge-light-warning mr-1">Pending</span></td> -->
                                 <td class="overflow-hidden">
                                   <!-- <span class="delete-button" >

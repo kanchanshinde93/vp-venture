@@ -59,6 +59,8 @@ resultbalance:any
   ifsc_code: any;
   newProfit:any;
   bank_accountNumber: any;
+
+
   constructor(public afs: AngularFirestore, public toastr: ToastrService,private spinner: NgxSpinnerService,private store: AngularFireStorage, config: NgbModalConfig, private modalService: NgbModal, public datePipe: DatePipe, public OneService :OnesignalService) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -68,7 +70,7 @@ resultbalance:any
 
   ngOnInit(): void {
     // header content 
-    this.offers=[];
+    this.offers.pop();
     this.contentHeader = {
       headerTitle: 'Pending Payout List',
       actionButton: true,
@@ -107,19 +109,21 @@ resultbalance:any
   }
 
   getAllPendingPayoutsList() {
+    this.offers.pop();
    this.spinner.show()
-    this.offers=[];
-    let withdrawtable=this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data) => {
+ 
+   let withdrawtable=this.afs.collection('WITHDRAW', ref => ref.where('status', '==', 1)).valueChanges({ idField: 'id' }).subscribe((data) => {
       this.offersData = data;
       console.log(data)
-        this.offers=[];
-      this.offersData.forEach(value => {
+      this.spinner.hide()
+       this.offersData.forEach(value => {
         this.afs.collection('INVESTORS').doc(value.uid).valueChanges({ idField: 'id' }).subscribe((data) => { // basic  deatils 
           this.investors = data;
           var date = this.datePipe.transform(value.timestamp.toDate(), "medium");
           this.fullName = this.investors.fullName
           this.phone = this.investors.phone 
-        
+         // this.offers=[];
+         
           this.offers.push({
               id:value.id,
               fullName: this.fullName,
@@ -134,7 +138,7 @@ resultbalance:any
               uid:value.uid
             })
             withdrawtable.unsubscribe()
-            this.spinner.hide()
+          
         
         });
       });
@@ -142,8 +146,8 @@ resultbalance:any
     
   }
 
-  payout(uid, amount, id) {
-    console.log(uid,+amount,+id)
+/*   payout(uid, amount, id) {
+    //console.log(uid,+amount,+id)
     this.amount = amount
     this.afs.collection('INVESTORS').doc(uid).valueChanges({ idField: 'id' }).subscribe((data)=>{ // basic  deatils 
       this.investors = data;
@@ -180,14 +184,13 @@ resultbalance:any
               });
              //return;
         }) 
-
-      this.getAllPendingPayoutsList()
-        
-      });
+       });
       });
  
-   
+      this.getAllPendingPayoutsList()
     
     
-  } 
+  }  */
+
+  
 }

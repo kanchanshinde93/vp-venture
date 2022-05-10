@@ -38,6 +38,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { NgxLoadingXModule } from 'ngx-loading-x';
 import { NgxLoaderModule } from '@tusharghoshbd/ngx-loader';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 const appRoutes: Routes = [
@@ -144,6 +145,10 @@ const appRoutes: Routes = [
     AuthenticationModule,
     PayoutModule,
     NgxSpinnerModule ,  NgxLoadingXModule,NgxLoaderModule ,
+ 
+        FormsModule,
+        ReactiveFormsModule,
+        NgbModule
 
   ],
 

@@ -63,7 +63,7 @@ export class PortfoliolistComponent implements OnInit {
   ngOnInit(): void {
     this.portfoliosData=[]
       // header content 
-      this.portfoliosData=[];
+     
       this.contentHeader = {
         headerTitle: 'Portfolio List',
         actionButton: true,

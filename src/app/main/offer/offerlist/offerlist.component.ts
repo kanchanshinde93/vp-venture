@@ -101,11 +101,11 @@ export class OfferlistComponent implements OnInit {
       this.spinner.show()
       this.afs.collection('OFFER').valueChanges({ idField: 'id' }).subscribe((data)=>{
         this.offersData = data;
-      console.log(this.offers,"investor")
+      //console.log(this.offers,"investor")
 
         this.offersData.forEach(value => {
           var date =  this.datePipe.transform(value.date.toDate(),"medium");
-            console.log(date)
+            //console.log(date)
             this.offers.push({
               amount:value.amount,
               duration:value.duration,
@@ -115,7 +115,7 @@ export class OfferlistComponent implements OnInit {
             })
           });
           this.spinner.hide()
-      console.log(this.offers,"investor")
+     // console.log(this.offers,"investor")
 
       });
     }
@@ -130,18 +130,17 @@ export class OfferlistComponent implements OnInit {
       this.offersData = data;
       this.offersData.forEach(value => {
         var date =  this.datePipe.transform(value.date.toDate(),"medium");
-          console.log(date)
+          //console.log(date)
           this.offers.push({
             amount:value.amount,
             duration:value.duration,
             profit:value.profit,
             type:value.type,
             date:value.date,
-         
           })
         });
         this.spinner.hide()
-      console.log(this.offers,"investor")
+     // console.log(this.offers,"investor")
     });
   }
   delete(doc_id){

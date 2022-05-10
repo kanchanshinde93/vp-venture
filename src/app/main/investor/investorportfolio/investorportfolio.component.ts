@@ -4,6 +4,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { ColumnMode, DatatableComponent, SelectionType } from '@swimlane/ngx-datatable';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angular bootsrap modal
 import { DatePipe } from '@angular/common';
+import { InvestortransactionlistComponent } from '../investortransactionlist/investortransactionlist.component';
 
 @Component({
   selector: 'app-investorportfolio',
@@ -52,7 +53,6 @@ constructor(public afs: AngularFirestore, private store: AngularFireStorage,conf
     this.afs.collection('INVESTORS').doc(this.doc_uid).collection('PORTFOLIO').valueChanges({ idField: 'id' }).subscribe((data)=>{ // bank details
       this.portfoliosData= data;
       this.length = this.portfoliosData.length;
-   
       this.portfoliosData.forEach(value => {
         var date =  this.datePipe.transform(value.timestamp.toDate(),"medium");
           console.log(date)
@@ -81,5 +81,12 @@ constructor(public afs: AngularFirestore, private store: AngularFireStorage,conf
 close(){
   this.modalService.dismissAll();
 }
-
+transactionDetails(uid) {
+  const modalRef =   this.modalService.open(InvestortransactionlistComponent, {
+    centered: true,
+    size: 'xl'
+  });
+  modalRef.componentInstance.doc_uid = uid;
+  this.doc_uid = uid
+}
 }

@@ -13,6 +13,10 @@ import { Angular2CsvModule } from 'angular2-csv';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { SortByPipe } from '../../../@core/pipes/sort-by.pipe';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { CreateportfolioComponent } from './createportfolio/createportfolio.component';
+import { ReactiveFormsModule,FormsModule } from '@angular/forms';
+import { AutocompleteModule } from 'ng2-input-autocomplete';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 
 const routes = [
   {
@@ -20,13 +24,18 @@ const routes = [
     component: PortfoliolistComponent,
     data: { animation: 'portfoliolist' }
   },
+  {
+    path: 'createportfolio',
+    component: CreateportfolioComponent,
+    data: { animation: 'createportfolio' }
+  }
 
 
 
 ];
 @NgModule({
   declarations: [
-    PortfoliolistComponent,SortByPipe
+    PortfoliolistComponent,SortByPipe,CreateportfolioComponent
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -37,8 +46,9 @@ const routes = [
     NgxPaginationModule,
     NgbModule,
     Angular2CsvModule,
-    Ng2SearchPipeModule,NgxSpinnerModule
+    ReactiveFormsModule,  FormsModule,
+    Ng2SearchPipeModule,NgxSpinnerModule,  AutocompleteModule.forRoot(),AutocompleteLibModule,
   ],
-  exports: [PortfoliolistComponent]
+  exports: [PortfoliolistComponent,CreateportfolioComponent]
 })
 export class PortfolioModule { }

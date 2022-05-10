@@ -90,3 +90,8 @@ import 'zone.js'; // Included with Angular CLI.
 // ng2-dragula
 
 (window as any).global = window;
+
+//algolia
+(window as any).process = {
+    env: { DEBUG: undefined },
+  };

@@ -51,7 +51,8 @@ export class CreateofferComponent implements OnInit {
         ]
       }
     };
-    this.uid  = this.activerouter.snapshot.paramMap.get('id'); 
+    this.uid= this.activerouter.snapshot.paramMap.get('id')? "" + this.activerouter.snapshot.paramMap.get('id') : ""
+    //this.uid  = this.activerouter.snapshot.paramMap.get('id')?""; 
 
     this.form = new FormGroup({ // Login Form Input Field
       amount: new FormControl('', [Validators.required]),
@@ -63,7 +64,7 @@ export class CreateofferComponent implements OnInit {
   }
   onSubmit() {
     console.log(this.form.value);
-    this.date=this.form.value['date'];
+     this.date=this.form.value['date'];
     let myDateTemp = new Date(this.date);
     const docid  = this.afs.createId();
     this.afs.collection('OFFER').doc(docid).set({ 
@@ -78,18 +79,18 @@ export class CreateofferComponent implements OnInit {
     this.Offers =  this.afs.collection('OFFER').doc(docid).snapshotChanges().subscribe((data)=>{ // bank details
       this.Offers = data;
     }); 
-    console.log(this.Offers)
+    //console.log(this.Offers)
     if(this.Offers){
       this.OneService.onesignal().subscribe(resultData => { // call api 
         this.result = resultData;
-          console.log(this.result)
+         // console.log(this.result)
           });
       this.toastr.success('success', 'Offer Created Successfully', {
         timeOut: 100000,
       }); 
       this.form.reset();
      
-    }
+    } 
      
     
   }

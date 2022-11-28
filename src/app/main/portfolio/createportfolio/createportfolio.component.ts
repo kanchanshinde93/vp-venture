@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-createportfolio',
@@ -9,7 +9,7 @@ import { Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms
 })
 export class CreateportfolioComponent implements OnInit {
   public contentHeader: object
-  protfolioForm: UntypedFormGroup;
+  protfolioForm: FormGroup;
   searchValue: string = "";
   results: any;
   inputChanged: string;
@@ -42,10 +42,10 @@ export class CreateportfolioComponent implements OnInit {
         ]
       }
     };
-    this.protfolioForm = new UntypedFormGroup({ // Login Form Input Field
-      investorName: new UntypedFormControl('', [Validators.required]),
-      amount: new UntypedFormControl('', [Validators.required]),
-      lockingPeriod: new UntypedFormControl('', [Validators.required]),
+    this.protfolioForm = new FormGroup({ // Login Form Input Field
+      investorName: new FormControl('', [Validators.required]),
+      amount: new FormControl('', [Validators.required]),
+      lockingPeriod: new FormControl('', [Validators.required]),
     
      
     });

@@ -109,8 +109,9 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes, {
-    scrollPositionRestoration: 'enabled'
-}),
+      scrollPositionRestoration: 'enabled', // Add options right here
+      relativeLinkResolution: 'legacy'
+    }),
     TranslateModule.forRoot(),
 
     //NgBootstrap

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 
 
 import { takeUntil } from 'rxjs/operators';
@@ -8,8 +8,7 @@ import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { CoreConfigService } from '@core/services/config.service';
 
-
-import { getAuth, RecaptchaVerifier, signInWithPhoneNumber ,signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, signInAnonymously, RecaptchaVerifier, signInWithPhoneNumber, signInWithEmailAndPassword } from "firebase/auth";
 
 @Component({
   selector: 'app-auth-login-v2',
@@ -20,7 +19,7 @@ import { getAuth, RecaptchaVerifier, signInWithPhoneNumber ,signInWithEmailAndPa
 export class AuthLoginV2Component implements OnInit {
   //  Public
   public coreConfig: any;
-  public loginForm: UntypedFormGroup;
+  public loginForm: FormGroup;
   public loading = false;
   public submitted = false;
   public returnUrl: string;
@@ -37,7 +36,7 @@ export class AuthLoginV2Component implements OnInit {
    */
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router
   ) {
@@ -64,16 +63,16 @@ export class AuthLoginV2Component implements OnInit {
   /**
    * On init
    */
-   ngOnInit(): void {
-    this.loginForm = new UntypedFormGroup({ // Login Form Input Field
-      email: new UntypedFormControl('', [Validators.required, Validators.email]),
-      password: new UntypedFormControl('', [Validators.required]),
+  ngOnInit(): void {
+    this.loginForm = new FormGroup({ // Login Form Input Field
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [Validators.required]),
 
     });
     console.log(localStorage.getItem('loggedIn'));
-    if(localStorage.getItem('loggedIn') === 'true'){
+    if (localStorage.getItem('loggedIn') === 'true') {
       this._router.navigate(['/home']);
-    }else{
+    } else {
       this._router.navigate(['/adminlogin']);
     }
     // get return url from route parameters or default to '/'
@@ -94,20 +93,34 @@ export class AuthLoginV2Component implements OnInit {
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
   }
+  Continue() {
+    const auth = getAuth();
+    signInAnonymously(auth)
+      .then(() => {
+        console.log("=============shivam", auth.currentUser);
 
+        this._router.navigate(['/home']);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("=============shivam g", errorMessage);
+        // ...
+      });
+  }
   onSubmit() {
     this.submitted = true;
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
-    }else{
+    } else {
       const auth = getAuth();
-      signInWithEmailAndPassword(auth,  this.loginForm.value["email"], this.loginForm.value["password"])
+      signInWithEmailAndPassword(auth, this.loginForm.value["email"], this.loginForm.value["password"])
         .then((userCredential) => {
           // Signed in 
           const user = userCredential.user;
           localStorage.setItem('loggedIn', 'true');
-            // redirect to home page
+          // redirect to home page
           setTimeout(() => {
             this._router.navigate(['/home']);
           }, 100);
@@ -126,7 +139,7 @@ export class AuthLoginV2Component implements OnInit {
     // Login
     this.loading = true;
 
-  
+
   }
 
   // Lifecycle Hooks

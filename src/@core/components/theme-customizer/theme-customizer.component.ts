@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,7 +16,7 @@ import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.s
 export class CoreThemeCustomizerComponent implements OnInit, OnDestroy {
   navbarColorValue: string;
   coreConfig: any;
-  form: UntypedFormGroup;
+  form: FormGroup;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -29,7 +29,7 @@ export class CoreThemeCustomizerComponent implements OnInit, OnDestroy {
    * @param {CoreSidebarService} _coreSidebarService
    * */
   constructor(
-    private _formBuilder: UntypedFormBuilder,
+    private _formBuilder: FormBuilder,
     private _coreConfigService: CoreConfigService,
     private _coreSidebarService: CoreSidebarService
   ) {
@@ -47,37 +47,37 @@ export class CoreThemeCustomizerComponent implements OnInit, OnDestroy {
     // Build theme config form
     this.form = this._formBuilder.group({
       app: this._formBuilder.group({
-        appName: new UntypedFormControl(),
-        appTitle: new UntypedFormControl(),
-        appLogoImage: new UntypedFormControl(),
-        appLanguage: new UntypedFormControl()
+        appName: new FormControl(),
+        appTitle: new FormControl(),
+        appLogoImage: new FormControl(),
+        appLanguage: new FormControl()
       }),
       layout: this._formBuilder.group({
-        skin: new UntypedFormControl(),
-        type: new UntypedFormControl(),
-        animation: new UntypedFormControl(),
+        skin: new FormControl(),
+        type: new FormControl(),
+        animation: new FormControl(),
         menu: this._formBuilder.group({
-          hidden: new UntypedFormControl(),
-          collapsed: new UntypedFormControl()
+          hidden: new FormControl(),
+          collapsed: new FormControl()
         }),
         navbar: this._formBuilder.group({
-          hidden: new UntypedFormControl(),
-          type: new UntypedFormControl(),
-          background: new UntypedFormControl(),
-          customBackgroundColor: new UntypedFormControl(),
-          backgroundColor: new UntypedFormControl()
+          hidden: new FormControl(),
+          type: new FormControl(),
+          background: new FormControl(),
+          customBackgroundColor: new FormControl(),
+          backgroundColor: new FormControl()
         }),
         footer: this._formBuilder.group({
-          hidden: new UntypedFormControl(),
-          type: new UntypedFormControl(),
-          background: new UntypedFormControl(),
-          customBackgroundColor: new UntypedFormControl(),
-          backgroundColor: new UntypedFormControl()
+          hidden: new FormControl(),
+          type: new FormControl(),
+          background: new FormControl(),
+          customBackgroundColor: new FormControl(),
+          backgroundColor: new FormControl()
         }),
-        enableLocalStorage: new UntypedFormControl(),
-        customizer: new UntypedFormControl(),
-        scrollTop: new UntypedFormControl(),
-        buyNow: new UntypedFormControl()
+        enableLocalStorage: new FormControl(),
+        customizer: new FormControl(),
+        scrollTop: new FormControl(),
+        buyNow: new FormControl()
       })
     });
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angular bootsrap modal
-import { Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { Validators, FormGroup, FormControl } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr'
 import { AngularFireDatabase } from '@angular/fire/compat/database'
 import { Router } from '@angular/router';
@@ -14,7 +14,7 @@ import {ActivatedRoute} from "@angular/router"
 })
 export class CreatenoticeComponent implements OnInit {
   public contentHeader: object
-  form: UntypedFormGroup;
+  form: FormGroup;
   Offers:any
   notices:any
   date:any
@@ -51,13 +51,13 @@ export class CreatenoticeComponent implements OnInit {
     if(this.noticeId){
       this.afs.collection('NOTICE').doc(this.noticeId).valueChanges().subscribe((data)=>{
         this.notices = data;
-        this.form = new UntypedFormGroup({ // Login Form Input Field
-          title: new UntypedFormControl(this.notices.title, [Validators.required]),
+        this.form = new FormGroup({ // Login Form Input Field
+          title: new FormControl(this.notices.title, [Validators.required]),
         });
       });
     }
-    this.form = new UntypedFormGroup({ // Login Form Input Field
-      title: new UntypedFormControl('', [Validators.required]),
+    this.form = new FormGroup({ // Login Form Input Field
+      title: new FormControl('', [Validators.required]),
     });
   }
   onSubmit() {

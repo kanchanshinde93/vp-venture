@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild,Input } from '@angular/core';
 import { AngularFireStorage } from "@angular/fire/compat/storage";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap'; // angular bootsrap modal
-import { Validators, FormGroup, FormControl } from '@angular/forms';
+import { Validators, UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import {ToastrService} from 'ngx-toastr'
 import { AngularFireDatabase } from '@angular/fire/compat/database'
 import { DatePipe } from '@angular/common'
@@ -18,7 +18,7 @@ import { OnesignalService} from '../../../service/onesignal.service'
 })
 export class CreateofferComponent implements OnInit {
   public contentHeader: object
-  form: FormGroup;
+  form: UntypedFormGroup;
   Offers:any
   date:any
   rawData:any;
@@ -54,12 +54,12 @@ export class CreateofferComponent implements OnInit {
     this.uid= this.activerouter.snapshot.paramMap.get('id')? "" + this.activerouter.snapshot.paramMap.get('id') : ""
     //this.uid  = this.activerouter.snapshot.paramMap.get('id')?""; 
 
-    this.form = new FormGroup({ // Login Form Input Field
-      amount: new FormControl('', [Validators.required]),
-      profit: new FormControl('', [Validators.required]),
-      duration: new FormControl('', [Validators.required]),
-      date: new FormControl('', [Validators.required]),
-      uid :new FormControl(this.uid, [Validators.required])
+    this.form = new UntypedFormGroup({ // Login Form Input Field
+      amount: new UntypedFormControl('', [Validators.required]),
+      profit: new UntypedFormControl('', [Validators.required]),
+      duration: new UntypedFormControl('', [Validators.required]),
+      date: new UntypedFormControl('', [Validators.required]),
+      uid :new UntypedFormControl(this.uid, [Validators.required])
     });
   }
   onSubmit() {

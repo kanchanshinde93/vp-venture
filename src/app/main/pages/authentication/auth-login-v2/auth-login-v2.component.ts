@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, UntypedFormControl } from '@angular/forms';
 
 
 import { takeUntil } from 'rxjs/operators';
@@ -20,7 +20,7 @@ import { getAuth, RecaptchaVerifier, signInWithPhoneNumber ,signInWithEmailAndPa
 export class AuthLoginV2Component implements OnInit {
   //  Public
   public coreConfig: any;
-  public loginForm: FormGroup;
+  public loginForm: UntypedFormGroup;
   public loading = false;
   public submitted = false;
   public returnUrl: string;
@@ -37,7 +37,7 @@ export class AuthLoginV2Component implements OnInit {
    */
   constructor(
     private _coreConfigService: CoreConfigService,
-    private _formBuilder: FormBuilder,
+    private _formBuilder: UntypedFormBuilder,
     private _route: ActivatedRoute,
     private _router: Router
   ) {
@@ -65,9 +65,9 @@ export class AuthLoginV2Component implements OnInit {
    * On init
    */
    ngOnInit(): void {
-    this.loginForm = new FormGroup({ // Login Form Input Field
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
+    this.loginForm = new UntypedFormGroup({ // Login Form Input Field
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      password: new UntypedFormControl('', [Validators.required]),
 
     });
     console.log(localStorage.getItem('loggedIn'));
